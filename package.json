@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@nicepay/start-api-mcp": "^0.0.10"
+  }
+}
