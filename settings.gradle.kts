@@ -1,1 +1,1 @@
-rootProject.name = "godtech_api"
+rootProject.name = "portfolio_api"

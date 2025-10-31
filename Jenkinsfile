@@ -15,7 +15,7 @@ pipeline {
 
                     sh """
                         ssh -i '${env.SSH_KEY_PATH}' -o StrictHostKeyChecking=no ${env.REMOTE_USER}@${env.REMOTE_SERVER} '
-                            cd ${env.GODTECH_API_REMOTE_PATH} && \
+                            cd ${env.portfolio_API_REMOTE_PATH} && \
                             git reset --hard && \
                             git pull origin main && \
                             echo "✅ git pull 완료"
@@ -32,23 +32,23 @@ pipeline {
 
                     sh """
                         ssh -i '${env.SSH_KEY_PATH}' -o StrictHostKeyChecking=no ${env.REMOTE_USER}@${env.REMOTE_SERVER} '
-                            cd ${env.GODTECH_API_REMOTE_PATH} && \
+                            cd ${env.portfolio_API_REMOTE_PATH} && \
 
                             # 5️⃣ 초기 도커 시스템 정리
                             docker system prune -a --volumes --force
 
                             # 컨테이너 존재 시 중지 및 삭제
-                            if docker ps -a --format "{{.Names}}" | grep -q "^godtech-api\\\$"; then
-                                docker stop godtech-api && docker rm godtech-api
+                            if docker ps -a --format "{{.Names}}" | grep -q "^portfolio-api\\\$"; then
+                                docker stop portfolio-api && docker rm portfolio-api
                             fi && \
                             # 이미지 존재 시 삭제
-                            if docker images --format "{{.Repository}}" | grep -q "^html_godtech-api\\\$"; then
-                                docker rmi -f html_godtech-api
+                            if docker images --format "{{.Repository}}" | grep -q "^html_portfolio-api\\\$"; then
+                                docker rmi -f html_portfolio-api
                             fi && \
                             ./gradlew clean build && \
                             cd ${env.DOCKER_COMPOSE_PATH} && \
-                            docker compose build godtech-api && \
-                            docker compose up -d godtech-api && \
+                            docker compose build portfolio-api && \
+                            docker compose up -d portfolio-api && \
 
                             # 5️⃣ 도커 시스템 정리
                             docker system prune -a --volumes --force

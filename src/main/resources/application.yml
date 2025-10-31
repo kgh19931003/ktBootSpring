@@ -21,7 +21,7 @@ spring:
     resources:
       static-locations: classpath:/static/, file:/var/www/uploads/
   datasource:
-    url: jdbc:mariadb://localhost:3306/godtech?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Seoul
+    url: jdbc:mariadb://localhost:3306/portfolio?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Seoul
     username: ENC(baB8CukL9Rz5rbaZ98en5A==)
     password: ENC(8lNr4CEDkS++bweMyVVPyBfr6bAQeevP)
     hikari:
@@ -46,7 +46,7 @@ logging:
     org.jooq: DEBUG
 
 file:
-  upload-dir: /var/www/html/godtech_api/uploads       # 실제 업로드 저장 경로
+  upload-dir: /var/www/html/portfolio_api/uploads       # 실제 업로드 저장 경로
 
 jwt:
   secret-key: qwhDhLFtrxWfs951DcODc3PWtwTNxU6vvwAX
@@ -83,7 +83,7 @@ springdoc:
     display-request-duration: true
     tags-sorter: alpha
   paths-to-match: /**
-  packages-to-scan: com.godtech.ktboot
+  packages-to-scan: com.portfolio.ktboot
   default-consumes-media-type: application/json
   default-produces-media-type: application/json
 
@@ -117,7 +117,7 @@ spring:
     resources:
       static-locations: classpath:/static/, file:/var/www/uploads/
   datasource:
-    url: jdbc:mariadb://localhost:3306/godtech?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Seoul
+    url: jdbc:mariadb://localhost:3306/portfolio?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Seoul
     username: ENC(baB8CukL9Rz5rbaZ98en5A==)
     password: ENC(8lNr4CEDkS++bweMyVVPyBfr6bAQeevP)
     hikari:
@@ -134,7 +134,7 @@ spring:
     baseline-on-migrate: true
     locations: classpath:db/migration
     baseline-version: 1
-    schemas: godtech
+    schemas: portfolio
 logging:
   level:
     org.springframework.jdbc: DEBUG
@@ -195,7 +195,7 @@ spring:
     resources:
       static-locations: classpath:/static/, file:/var/www/uploads/
   datasource:
-    url: jdbc:mariadb://host.docker.internal:3306/godtech?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Seoul
+    url: jdbc:mariadb://host.docker.internal:3306/portfolio?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Seoul
     username: ENC(A6bs9PFdqSREKHU6ZT2X/A==)
     password: ENC(FaWhFpcpyykwCtIcbPTDqw==)
     hikari:
@@ -212,7 +212,7 @@ spring:
     baseline-on-migrate: true
     locations: classpath:db/migration
     baseline-version: 1
-    schemas: godtech
+    schemas: portfolio
 logging:
   level:
     org.springframework.jdbc: DEBUG
@@ -269,7 +269,7 @@ spring:
     resources:
       static-locations: classpath:/static/, file:/var/www/uploads/
   datasource:
-    url: jdbc:mariadb://godtech-web-db.cru08kuai7au.ap-northeast-2.rds.amazonaws.com/godtech?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Seoul
+    url: jdbc:mariadb://portfolio-web-db.cru08kuai7au.ap-northeast-2.rds.amazonaws.com/portfolio?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Seoul
     username: ENC(m6m7XbvBWIEl7AQVoiOykQ==)
     password: ENC(C14tHl6vPVXt82drZl0y8R5biATpO5Tt)
     hikari:
@@ -286,7 +286,7 @@ spring:
     baseline-on-migrate: true
     locations: classpath:db/migration
     baseline-version: 1
-    schemas: godtech
+    schemas: portfolio
 logging:
   level:
     org.springframework.jdbc: DEBUG
@@ -319,7 +319,7 @@ server:
 
 aws:
   s3:
-    bucket: godtech-web
+    bucket: portfolio-web
     region: ap-northeast-2
     access-key: ENC(VGhkUYW4GkGdpaNj6t5F6cHrZdsJ3/Fhmw1wSmTHusQ=)
     secret-key: ENC(WmNFL2CDAnBcWL+t5jfCTLqeuAius4h4aWRb3Qt2UY6hWH4Y4l0AJvPcBbJ96uqtrArqvmbT1YA=)
@@ -350,7 +350,7 @@ spring:
     resources:
       static-locations: classpath:/static/, file:/var/www/uploads/
   datasource:
-    url: jdbc:mariadb://mariadb:3306/godtech?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Seoul
+    url: jdbc:mariadb://mariadb:3306/portfolio?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Seoul
     username: ENC(baB8CukL9Rz5rbaZ98en5A==)
     password: ENC(8lNr4CEDkS++bweMyVVPyBfr6bAQeevP)
     hikari:
@@ -367,7 +367,7 @@ spring:
     baseline-on-migrate: true
     locations: classpath:db/migration
     baseline-version: 1
-    schemas: godtech
+    schemas: portfolio
 logging:
   level:
     org.springframework.jdbc: DEBUG
@@ -400,7 +400,7 @@ server:
 
 aws:
   s3:
-    bucket: godtech-web
+    bucket: portfolio-web
     region: ap-northeast-2
     access-key: ENC(VGhkUYW4GkGdpaNj6t5F6cHrZdsJ3/Fhmw1wSmTHusQ=)
     secret-key: ENC(WmNFL2CDAnBcWL+t5jfCTLqeuAius4h4aWRb3Qt2UY6hWH4Y4l0AJvPcBbJ96uqtrArqvmbT1YA=)

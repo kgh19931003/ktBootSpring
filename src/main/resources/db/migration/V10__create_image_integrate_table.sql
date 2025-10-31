@@ -1,4 +1,4 @@
-CREATE TABLE `godtech`.`image_integrate` (
+CREATE TABLE `portfolio`.`image_integrate` (
                                              `idx` INT NOT NULL AUTO_INCREMENT,
                                              `ref_id` INT NOT NULL,
                                              `ref_table` VARCHAR(255) NOT NULL,

@@ -101,7 +101,7 @@ dependencies {
 sourceSets {
     main {
         java {
-            srcDir(layout.buildDirectory.dir("generated-src/jooq/godtech"))
+            srcDir(layout.buildDirectory.dir("generated-src/jooq/portfolio"))
         }
     }
 }
@@ -124,19 +124,19 @@ flyway {
     validateOnMigrate = false
 
     if (springProfile == "aws") {
-        url = "jdbc:mariadb://godtech-web-db.cru08kuai7au.ap-northeast-2.rds.amazonaws.com/godtech"
+        url = "jdbc:mariadb://portfolio-web-db.cru08kuai7au.ap-northeast-2.rds.amazonaws.com/portfolio"
         user = "admin"      // 실제 AWS RDS 사용자
-        password = "godtech0425!"  // 실제 AWS RDS 비밀번호
+        password = "portfolio0425!"  // 실제 AWS RDS 비밀번호
     }
     else if(springProfile == "operation"){
-        url = "jdbc:mariadb://172.19.0.2:3306/godtech"
+        url = "jdbc:mariadb://172.19.0.2:3306/portfolio"
         user = "root"
-        password = "godtech0425!"
+        password = "portfolio0425!"
     }
     else {
-        url = "jdbc:mariadb://127.0.0.1:3306/godtech"
+        url = "jdbc:mariadb://127.0.0.1:3306/portfolio"
         user = "root"
-        password = "godtech0425!"
+        password = "portfolio0425!"
     }
 }
 
@@ -153,30 +153,29 @@ jooq {
     edition.set(nu.studer.gradle.jooq.JooqEdition.OSS)
 
     configurations {
-        create("godtechApi") {
+        create("portfolioApi") {
             generateSchemaSourceOnCompilation.set(true)
 
             jooqConfiguration.apply {
 
-
                 val osName = System.getProperty("os.name").lowercase(Locale.getDefault())
                 val jdbcForm = jdbcForm().apply {
                     if (osName.contains("win") || osName.contains("mac")) {
-                        jdbcUrl = "jdbc:mariadb://127.0.0.1:3306/godtech"
+                        jdbcUrl = "jdbc:mariadb://127.0.0.1:3306/portfolio"
                         user = "root"
-                        password = "godtech0425!"
-                        inputSchema = "godtech"
+                        password = "portfolio0425!"
+                        inputSchema = "portfolio"
                     } else {
                         if (springProfile == "aws") {
-                            jdbcUrl = "jdbc:mariadb://godtech-web-db.cru08kuai7au.ap-northeast-2.rds.amazonaws.com/godtech"
+                            jdbcUrl = "jdbc:mariadb://portfolio-web-db.cru08kuai7au.ap-northeast-2.rds.amazonaws.com/portfolio"
                             user = "admin"
-                            password = "godtech0425!"
-                            inputSchema = "godtech"
+                            password = "portfolio0425!"
+                            inputSchema = "portfolio"
                         } else {
-                            jdbcUrl = "jdbc:mariadb://172.19.0.2:3306/godtech"
+                            jdbcUrl = "jdbc:mariadb://172.19.0.2:3306/portfolio"
                             user = "root"
-                            password = "godtech0425!"
-                            inputSchema = "godtech"
+                            password = "portfolio0425!"
+                            inputSchema = "portfolio"
                         }
                     }
                 }
@@ -213,8 +212,8 @@ jooq {
                     }
 
                     target.apply {
-                        packageName = "com.godtech.ktboot.jooq.godtech"
-                        directory = layout.buildDirectory.dir("generated-src/jooq/godtech").get().asFile.absolutePath
+                        packageName = "com.portfolio.ktboot.jooq.portfolio"
+                        directory = layout.buildDirectory.dir("generated-src/jooq/portfolio").get().asFile.absolutePath
                     }
 
                     strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"
@@ -250,9 +249,9 @@ tasks.withType<Test> {
 }
 
 tasks.named("compileKotlin") {
-    dependsOn(tasks.named("generateGodtechApiJooq"))
+    dependsOn(tasks.named("generatePortfolioApiJooq"))
 }
 
-tasks.named("generateGodtechApiJooq") {
+tasks.named("generatePortfolioApiJooq") {
     dependsOn(tasks.named("flywayMigrate"))
 }
