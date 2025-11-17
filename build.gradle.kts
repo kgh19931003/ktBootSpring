@@ -167,12 +167,12 @@ jooq {
                         inputSchema = "portfolio"
                     } else {
                         if (springProfile == "aws") {
-                            jdbcUrl = "jdbc:mariadb://portfolio-web-db.cru08kuai7au.ap-northeast-2.rds.amazonaws.com/portfolio"
+                            jdbcUrl = "jdbc:mariadb://mariadb:3306/portfolio"
                             user = "admin"
                             password = "portfolio0425!"
                             inputSchema = "portfolio"
                         } else {
-                            jdbcUrl = "jdbc:mariadb://mariadb:3306/portfolio"
+                            jdbcUrl = "jdbc:mariadb://127.0.0.1:3306/portfolio"
                             user = "root"
                             password = "portfolio0425!"
                             inputSchema = "portfolio"
