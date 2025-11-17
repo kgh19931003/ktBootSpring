@@ -124,12 +124,12 @@ flyway {
     validateOnMigrate = false
 
     if (springProfile == "aws") {
-        url = "jdbc:mariadb://portfolio-web-db.cru08kuai7au.ap-northeast-2.rds.amazonaws.com/portfolio"
+        url = "jdbc:mariadb://mariadb:3306/portfolio"
         user = "admin"      // 실제 AWS RDS 사용자
         password = "portfolio0425!"  // 실제 AWS RDS 비밀번호
     }
     else if(springProfile == "operation"){
-        url = "jdbc:mariadb://172.19.0.2:3306/portfolio"
+        url = "jdbc:mariadb://mariadb:3306/portfolio"
         user = "root"
         password = "portfolio0425!"
     }
