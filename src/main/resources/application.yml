@@ -270,7 +270,7 @@ spring:
       static-locations: classpath:/static/, file:/var/www/uploads/
   datasource:
     url: jdbc:mariadb://mariadb:3306/portfolio?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Seoul
-    username: ENC(m6m7XbvBWIEl7AQVoiOykQ==)
+    username: ENC(A6bs9PFdqSREKHU6ZT2X/A==)
     password: ENC(C14tHl6vPVXt82drZl0y8R5biATpO5Tt)
     hikari:
       pool-name: HikariPool
@@ -351,7 +351,7 @@ spring:
       static-locations: classpath:/static/, file:/var/www/uploads/
   datasource:
     url: jdbc:mariadb://mariadb:3306/portfolio?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Seoul
-    username: ENC(baB8CukL9Rz5rbaZ98en5A==)
+    username: ENC(A6bs9PFdqSREKHU6ZT2X/A==)
     password: ENC(8lNr4CEDkS++bweMyVVPyBfr6bAQeevP)
     hikari:
       pool-name: HikariPool
