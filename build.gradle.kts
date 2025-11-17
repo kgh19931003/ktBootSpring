@@ -172,7 +172,7 @@ jooq {
                             password = "portfolio0425!"
                             inputSchema = "portfolio"
                         } else {
-                            jdbcUrl = "jdbc:mariadb://172.19.0.2:3306/portfolio"
+                            jdbcUrl = "jdbc:mariadb://mariadb:3306/portfolio"
                             user = "root"
                             password = "portfolio0425!"
                             inputSchema = "portfolio"
