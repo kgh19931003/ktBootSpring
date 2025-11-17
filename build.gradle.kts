@@ -125,7 +125,7 @@ flyway {
 
     if (springProfile == "aws") {
         url = "jdbc:mariadb://mariadb:3306/portfolio"
-        user = "admin"      // 실제 AWS RDS 사용자
+        user = "root"      // 실제 AWS RDS 사용자
         password = "portfolio0425!"  // 실제 AWS RDS 비밀번호
     }
     else if(springProfile == "operation"){
@@ -168,7 +168,7 @@ jooq {
                     } else {
                         if (springProfile == "aws") {
                             jdbcUrl = "jdbc:mariadb://mariadb:3306/portfolio"
-                            user = "admin"
+                            user = "root"
                             password = "portfolio0425!"
                             inputSchema = "portfolio"
                         } else {
