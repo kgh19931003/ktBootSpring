@@ -27,7 +27,7 @@ class WebSecurityConfig {
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
-        configuration.allowedOrigins = listOf("http://localhost:3000", "http://localhost:3001")
+        configuration.allowedOrigins = listOf("http://localhost:3000", "http://localhost:9876")
         configuration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
         configuration.allowedHeaders = listOf("*")  // 모든 header 허용
         configuration.allowCredentials = true

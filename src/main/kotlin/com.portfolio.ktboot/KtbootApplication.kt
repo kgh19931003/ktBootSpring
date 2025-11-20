@@ -20,6 +20,7 @@ fun main(args: Array<String>) {
     val app = SpringApplication(com.portfolio.ktboot.KtbootApplication::class.java)
 
     // OS 이름 확인
+
     val osName = System.getProperty("os.name").lowercase(Locale.getDefault())
     if (osName.contains("win") || osName.contains("mac")) {
         // 윈도우면 'windows' 프로파일 활성화

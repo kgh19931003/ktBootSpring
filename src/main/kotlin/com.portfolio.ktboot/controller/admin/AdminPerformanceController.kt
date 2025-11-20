@@ -137,7 +137,7 @@ class AdminPerformanceController (
             val path = dir?.combine("/" +name)!!
 
             performanceFileRepository.decrementOrderGreaterThan(id , file.order).let{
-                uploadController.deleteImageFile(path).let{
+                uploadController.deleteFile(path, false).let{
                     performanceFileRepository.deleteByIdx(value)
                 }
             }
@@ -206,7 +206,7 @@ class AdminPerformanceController (
                     val dir = file.dir ?: return@forEach
                     val name = file.name
                     val path = dir.combine("/" +name)!!
-                    uploadController.deleteImageFile(path)
+                    uploadController.deleteFile(path, false)
                 } catch (ex: Exception) {
                     println("파일 삭제 실패: ${ex.message}")
                 }
@@ -237,7 +237,7 @@ class AdminPerformanceController (
             @RequestBody src: List<String>
     ): Any {
         println("srcsrcsrc : "+extarctS3Path(src[0]))
-        return uploadController.deleteImageFile(extarctS3Path(src[0]))
+        return uploadController.deleteFile(extarctS3Path(src[0]), false)
     }
 
     @GetMapping("/excel")

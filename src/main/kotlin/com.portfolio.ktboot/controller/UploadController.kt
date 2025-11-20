@@ -27,7 +27,6 @@ import javax.imageio.ImageIO
 @RequestMapping("/api/upload")
 class UploadController(private val s3Service: S3Service) {
 
-    // 컨트롤러 클래스 안에서
     init {
         ImageIO.scanForPlugins()
     }
@@ -58,10 +57,8 @@ class UploadController(private val s3Service: S3Service) {
         val targetPath = uploadDir.resolve(savedName)
         file.transferTo(targetPath.toFile())
 
-        if (activeProfiles.contains("aws") || activeProfiles.contains("windows")) {
-            // 임시 파일 생성
+        if (activeProfiles.contains("aws")) {
             val tempFile = targetPath.toFile()
-
             val key = "${relativePath}/$savedName"
             src = s3Service.uploadFile(tempFile, key).toString()
 
@@ -73,14 +70,13 @@ class UploadController(private val s3Service: S3Service) {
                 throw IllegalArgumentException("지원하지 않는 이미지 형식이거나 파일이 손상되었습니다: ${file.originalFilename}")
             }
             Thumbnails.of(bufferedImage)
-                    .size(200, 200) // 원하는 썸네일 최대 크기
+                    .size(200, 200)
                     .keepAspectRatio(true)
                     .toFile(thumbnailTemp)
 
             val thumbnailKey = "${relativePath}/$thumbnailName"
             thumbnailSrc = s3Service.uploadFile(thumbnailTemp, thumbnailKey).toString()
 
-            // 임시 파일 삭제
             thumbnailTemp.delete()
         } else {
             // 로컬 저장 시 썸네일 생성
@@ -104,12 +100,64 @@ class UploadController(private val s3Service: S3Service) {
         )
     }
 
+    @PostMapping("/video", consumes = ["multipart/form-data"])
+    fun videoUpload(@RequestParam("file") file: MultipartFile, arrayPath: Array<String>): Map<String, String?> {
+        // 비디오 파일 확장자 검증
+        val allowedVideoExtensions = listOf("mp4", "avi", "mov", "wmv", "flv", "mkv", "webm", "m4v", "mpeg", "mpg")
+        val originalFilename = file.originalFilename ?: throw IllegalArgumentException("파일명이 없습니다.")
+        val extension = originalFilename.substringAfterLast('.', "").lowercase()
+
+        if (!allowedVideoExtensions.contains(extension)) {
+            throw IllegalArgumentException("허용되지 않은 비디오 형식입니다. (허용: ${allowedVideoExtensions.joinToString(", ")})")
+        }
+
+        // 파일 크기 체크 (500MB 제한)
+        val maxSize = 500 * 1024 * 1024L
+        if (file.size > maxSize) {
+            throw IllegalArgumentException("비디오 파일 크기는 500MB를 초과할 수 없습니다.")
+        }
+
+        val size = file.size.toString()
+        val savedName = nowAsTimestamp().combine(".$extension").toString()
+        val root = System.getProperty("user.dir")
+        val uploadDir = Paths.get(root, *arrayPath, nowAsYYMMDDFormat())
+        val relativePath = uploadDir.toString().removePrefix(root).replace("\\", "/").removePrefix("/")
+        var src = relativePath.combine("/$savedName")
+        val activeProfiles = env.activeProfiles
+
+        if (!Files.exists(uploadDir)) {
+            Files.createDirectories(uploadDir)
+        }
+
+        // 원본 파일 저장
+        val targetPath = uploadDir.resolve(savedName)
+        file.transferTo(targetPath.toFile())
+
+        if (activeProfiles.contains("aws")) {
+            val tempFile = targetPath.toFile()
+            val key = "${relativePath}/$savedName"
+            src = s3Service.uploadFile(tempFile, key).toString()
+
+            // AWS 업로드 후 로컬 임시 파일 삭제
+            tempFile.delete()
+        }
+
+        return mapOf(
+                "size" to size,
+                "originalName" to originalFilename,
+                "savedName" to savedName,
+                "relativePath" to relativePath,
+                "src" to src,
+                "extension" to extension
+        )
+    }
+
     @PostMapping("/editor", consumes = ["multipart/form-data"])
     @Operation(summary = "에디터 파일 업로드", description = "에디터 단일 파일 업로드")
     fun editorImageUpload(@RequestParam("file") file: MultipartFile, arrayPath: Array<String>): Map<String, String> {
         tikaAllowedImageFile(file)
 
-        var imageUrl = "";
+        var imageUrl = ""
         val extension = file.originalFilename?.substringAfterLast('.', "") ?: "png"
         val savedName = nowAsTimestamp().combine(".$extension").toString()
         val root = System.getProperty("user.dir")
@@ -117,19 +165,15 @@ class UploadController(private val s3Service: S3Service) {
         val relativePath = uploadDir.toString().removePrefix(root).replace("\\", "/").removePrefix("/")
         val activeProfiles = env.activeProfiles
 
-
-        if (activeProfiles.contains("aws") || activeProfiles.contains("windows")) {
-            // MultipartFile → 임시 File로 변환
+        if (activeProfiles.contains("aws")) {
             val tempFile = File.createTempFile(relativePath, savedName)
             file.transferTo(tempFile)
 
             val key = "${relativePath}/${savedName}"
             imageUrl = s3Service.uploadFile(tempFile, key).toString()
 
-            // 임시 파일 삭제
             tempFile.delete()
         } else {
-            // 신규 파일 저장
             if (!Files.exists(uploadDir)) {
                 Files.createDirectories(uploadDir)
             }
@@ -139,28 +183,42 @@ class UploadController(private val s3Service: S3Service) {
             imageUrl = "$relativePath/$savedName"
         }
 
-
         return mapOf("url" to imageUrl)
     }
 
     @DeleteMapping("/file")
     @Operation(summary = "파일 삭제", description = "S3 또는 로컬 파일 삭제")
-    fun deleteImageFile(@RequestParam("path") path: String): Response<String> {
+    fun deleteFile(@RequestParam("path") path: String, @RequestParam("isVideo", defaultValue = "false") isVideo: Boolean): Response<String> {
         return try {
             val activeProfiles = env.activeProfiles
 
-            if (activeProfiles.contains("aws") || activeProfiles.contains("windows")) {
+            if (activeProfiles.contains("aws")) {
                 // S3에서 삭제
-                println("thumbnail_image : "+toThumbnailPath(path))
-                s3Service.deleteFiles(mutableListOf(path, toThumbnailPath(path)))
+                if (isVideo) {
+                    // 비디오는 썸네일이 없으므로 원본만 삭제
+                    s3Service.deleteFiles(mutableListOf(path))
+                } else {
+                    // 이미지는 원본 + 썸네일 삭제
+                    println("thumbnail_image : "+toThumbnailPath(path))
+                    s3Service.deleteFiles(mutableListOf(path, toThumbnailPath(path)))
+                }
             } else {
                 // 로컬 파일 삭제
                 val root = System.getProperty("user.dir")
                 val filePath = Paths.get(root, path)
-                val filePathThumbnail = Paths.get(root, toThumbnailPath(path))
+
+                println("filePath : "+filePath)
+
                 if (Files.exists(filePath)) {
                     Files.delete(filePath)
-                    Files.delete(filePathThumbnail)
+
+                    // 이미지인 경우 썸네일도 삭제
+                    if (!isVideo) {
+                        val filePathThumbnail = Paths.get(root, toThumbnailPath(path))
+                        if (Files.exists(filePathThumbnail)) {
+                            Files.delete(filePathThumbnail)
+                        }
+                    }
                 }
             }
 
@@ -169,6 +227,4 @@ class UploadController(private val s3Service: S3Service) {
             Response.fail("파일 삭제 실패: ${ex.message}")
         }
     }
-
-
 }
