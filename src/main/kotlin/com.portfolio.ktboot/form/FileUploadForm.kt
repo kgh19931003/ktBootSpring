@@ -14,46 +14,19 @@ data class FileUploadUpdateForm(
         val title: String? = null,
 
         // 금속 이미지 관련
-        val metalImageOrder: List<Int>? = null,
-        val metalImageIndex: List<Int>? = null,
-        val metalImageOriginalIndex: List<Int>? = null,
-        val metalImageDeleteIndex: List<Int>? = null,
-        val metalImageMultipartFileOrder: List<Int>? = null,
+        val fileImageOrder: List<Int>? = null,
+        val fileImageIndex: List<Int>? = null,
+        val fileImageOriginalIndex: List<Int>? = null,
+        val fileImageDeleteIndex: List<Int>? = null,
+        val fileImageMultipartFileOrder: List<Int>? = null,
 
         // 금속 비디오 관련
-        val metalVideoOrder: List<Int>? = null,
-        val metalVideoIndex: List<Int>? = null,
-        val metalVideoOriginalIndex: List<Int>? = null,
-        val metalVideoDeleteIndex: List<Int>? = null,
-        val metalVideoMultipartFileOrder: List<Int>? = null,
+        val fileVideoOrder: List<Int>? = null,
+        val fileVideoIndex: List<Int>? = null,
+        val fileVideoOriginalIndex: List<Int>? = null,
+        val fileVideoDeleteIndex: List<Int>? = null,
+        val fileVideoMultipartFileOrder: List<Int>? = null,
 
-        // 플라스틱 이미지 관련
-        val plasticImageOrder: List<Int>? = null,
-        val plasticImageIndex: List<Int>? = null,
-        val plasticImageOriginalIndex: List<Int>? = null,
-        val plasticImageDeleteIndex: List<Int>? = null,
-        val plasticImageMultipartFileOrder: List<Int>? = null,
-
-        // 플라스틱 비디오 관련
-        val plasticVideoOrder: List<Int>? = null,
-        val plasticVideoIndex: List<Int>? = null,
-        val plasticVideoOriginalIndex: List<Int>? = null,
-        val plasticVideoDeleteIndex: List<Int>? = null,
-        val plasticVideoMultipartFileOrder: List<Int>? = null,
-
-        // 보수 이미지 관련
-        val repairImageOrder: List<Int>? = null,
-        val repairImageIndex: List<Int>? = null,
-        val repairImageOriginalIndex: List<Int>? = null,
-        val repairImageDeleteIndex: List<Int>? = null,
-        val repairImageMultipartFileOrder: List<Int>? = null,
-
-        // 보수 비디오 관련
-        val repairVideoOrder: List<Int>? = null,
-        val repairVideoIndex: List<Int>? = null,
-        val repairVideoOriginalIndex: List<Int>? = null,
-        val repairVideoDeleteIndex: List<Int>? = null,
-        val repairVideoMultipartFileOrder: List<Int>? = null,
 
         val createdAt: LocalDateTime? = null,
         val updatedAt: LocalDateTime? = null,
@@ -70,46 +43,20 @@ data class FileUploadCreateForm(
         val title: String? = null,
 
         // 금속 이미지 관련
-        val metalImageOrder: List<Int>? = null,
-        val metalImageIndex: List<Int>? = null,
-        val metalImageOriginalIndex: List<Int>? = null,
-        val metalImageDeleteIndex: List<Int>? = null,
-        val metalImageMultipartFileOrder: List<Int>? = null,
+        val fileImageOrder: List<Int>? = null,
+        val fileImageIndex: List<Int>? = null,
+        val fileImageOriginalIndex: List<Int>? = null,
+        val fileImageDeleteIndex: List<Int>? = null,
+        val fileImageMultipartFileOrder: List<Int>? = null,
 
         // 금속 비디오 관련
-        val metalVideoOrder: List<Int>? = null,
-        val metalVideoIndex: List<Int>? = null,
-        val metalVideoOriginalIndex: List<Int>? = null,
-        val metalVideoDeleteIndex: List<Int>? = null,
-        val metalVideoMultipartFileOrder: List<Int>? = null,
+        val fileVideoOrder: List<Int>? = null,
+        val fileVideoIndex: List<Int>? = null,
+        val fileVideoOriginalIndex: List<Int>? = null,
+        val fileVideoDeleteIndex: List<Int>? = null,
+        val fileVideoMultipartFileOrder: List<Int>? = null,
 
-        // 플라스틱 이미지 관련
-        val plasticImageOrder: List<Int>? = null,
-        val plasticImageIndex: List<Int>? = null,
-        val plasticImageOriginalIndex: List<Int>? = null,
-        val plasticImageDeleteIndex: List<Int>? = null,
-        val plasticImageMultipartFileOrder: List<Int>? = null,
 
-        // 플라스틱 비디오 관련
-        val plasticVideoOrder: List<Int>? = null,
-        val plasticVideoIndex: List<Int>? = null,
-        val plasticVideoOriginalIndex: List<Int>? = null,
-        val plasticVideoDeleteIndex: List<Int>? = null,
-        val plasticVideoMultipartFileOrder: List<Int>? = null,
-
-        // 보수 이미지 관련
-        val repairImageOrder: List<Int>? = null,
-        val repairImageIndex: List<Int>? = null,
-        val repairImageOriginalIndex: List<Int>? = null,
-        val repairImageDeleteIndex: List<Int>? = null,
-        val repairImageMultipartFileOrder: List<Int>? = null,
-
-        // 보수 비디오 관련
-        val repairVideoOrder: List<Int>? = null,
-        val repairVideoIndex: List<Int>? = null,
-        val repairVideoOriginalIndex: List<Int>? = null,
-        val repairVideoDeleteIndex: List<Int>? = null,
-        val repairVideoMultipartFileOrder: List<Int>? = null,
 
         val createdAt: LocalDateTime? = null,
         val updatedAt: LocalDateTime? = null
@@ -126,52 +73,22 @@ data class FileUploadList(
         var category: String? = null,
 
         // 금속 이미지 관련
-        var metalImage: List<String?>? = null,
-        var metalImageIndex: List<Int?>? = null,
-        var metalImageOriginalIndex: List<Int?>? = null,
-        var metalImageOrder: List<Int?>? = null,
-        var metalImageDeleteIndex: List<Int?>? = null,
-        var metalImageMultipartFileOrder: List<Int?>? = null,
+        var fileImage: List<String?>? = null,
+        var fileImageIndex: List<Int?>? = null,
+        var fileImageOriginalIndex: List<Int?>? = null,
+        var fileImageOrder: List<Int?>? = null,
+        var fileImageDeleteIndex: List<Int?>? = null,
+        var fileImageMultipartFileOrder: List<Int?>? = null,
 
         // 금속 비디오 관련
-        var metalFileImage: List<String?>? = null,
-        var metalFileIndex: List<Int?>? = null,
-        var metalFileOriginalIndex: List<Int?>? = null,
-        var metalFileOrder: List<Int?>? = null,
-        var metalFileDeleteIndex: List<Int?>? = null,
-        var metalFileMultipartFileOrder: List<Int?>? = null,
+        var fileFileImage: List<String?>? = null,
+        var fileFileIndex: List<Int?>? = null,
+        var fileFileOriginalIndex: List<Int?>? = null,
+        var fileFileOrder: List<Int?>? = null,
+        var fileFileDeleteIndex: List<Int?>? = null,
+        var fileFileMultipartFileOrder: List<Int?>? = null,
 
-        // 플라스틱 이미지 관련
-        var plasticImage: List<String?>? = null,
-        var plasticImageIndex: List<Int?>? = null,
-        var plasticImageOriginalIndex: List<Int?>? = null,
-        var plasticImageOrder: List<Int?>? = null,
-        var plasticImageDeleteIndex: List<Int?>? = null,
-        var plasticImageMultipartFileOrder: List<Int?>? = null,
 
-        // 플라스틱 비디오 관련
-        var plasticFileImage: List<String?>? = null,
-        var plasticFileIndex: List<Int?>? = null,
-        var plasticFileOriginalIndex: List<Int?>? = null,
-        var plasticFileOrder: List<Int?>? = null,
-        var plasticFileDeleteIndex: List<Int?>? = null,
-        var plasticFileMultipartFileOrder: List<Int?>? = null,
-
-        // 보수 이미지 관련
-        var repairImage: List<String?>? = null,
-        var repairImageIndex: List<Int?>? = null,
-        var repairImageOriginalIndex: List<Int?>? = null,
-        var repairImageOrder: List<Int?>? = null,
-        var repairImageDeleteIndex: List<Int?>? = null,
-        var repairImageMultipartFileOrder: List<Int?>? = null,
-
-        // 보수 비디오 관련
-        var repairFileImage: List<String?>? = null,
-        var repairFileIndex: List<Int?>? = null,
-        var repairFileOriginalIndex: List<Int?>? = null,
-        var repairFileOrder: List<Int?>? = null,
-        var repairFileDeleteIndex: List<Int?>? = null,
-        var repairFileMultipartFileOrder: List<Int?>? = null,
 
         var createdAt: LocalDateTime? = null,
         var updatedAt: LocalDateTime? = null,
