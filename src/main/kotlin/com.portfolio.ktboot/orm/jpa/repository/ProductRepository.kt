@@ -1,5 +1,6 @@
-package com.portfolio.ktboot.orm.jpa
+package com.portfolio.ktboot.orm.jpa.repository
 
+import com.portfolio.ktboot.orm.jpa.entity.ProductEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 

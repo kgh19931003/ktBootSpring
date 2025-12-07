@@ -1,7 +1,7 @@
 package com.portfolio.ktboot.utils
 
 
-import com.portfolio.ktboot.orm.jpa.MemberRepository
+import com.portfolio.ktboot.orm.jpa.repository.MemberRepository
 import com.portfolio.ktboot.proto.removeBearerPrefix
 import com.portfolio.ktboot.service.TokenValidationService
 import io.jsonwebtoken.Claims

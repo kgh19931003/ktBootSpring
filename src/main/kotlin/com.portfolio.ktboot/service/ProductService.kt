@@ -2,17 +2,17 @@ package com.portfolio.ktboot.service
 
 import com.portfolio.ktboot.form.*
 import com.portfolio.ktboot.orm.jooq.ProductDslRepository
-import com.portfolio.ktboot.orm.jpa.ProductEntity
-import com.portfolio.ktboot.orm.jpa.ProductFileEntity
-import com.portfolio.ktboot.orm.jpa.ProductFileRepository
-import com.portfolio.ktboot.orm.jpa.ProductRepository
+import com.portfolio.ktboot.orm.jpa.entity.ProductEntity
+import com.portfolio.ktboot.orm.jpa.entity.ProductFileEntity
+import com.portfolio.ktboot.orm.jpa.repository.ProductFileRepository
+import com.portfolio.ktboot.orm.jpa.repository.ProductRepository
 import org.springframework.stereotype.Service
 
 @Service
 class ProductService(
-        private val productDslRepository: ProductDslRepository,
-        private val productRepository: ProductRepository,
-        private val productImgRepository: ProductFileRepository
+    private val productDslRepository: ProductDslRepository,
+    private val productRepository: ProductRepository,
+    private val productImgRepository: ProductFileRepository
 ) {
 
     /**

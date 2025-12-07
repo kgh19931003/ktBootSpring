@@ -1,6 +1,6 @@
 package com.portfolio.ktboot.service
 
-import com.portfolio.ktboot.orm.jpa.MemberRepository
+import com.portfolio.ktboot.orm.jpa.repository.MemberRepository
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service

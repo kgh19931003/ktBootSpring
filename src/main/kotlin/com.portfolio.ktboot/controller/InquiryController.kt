@@ -3,6 +3,8 @@ package com.portfolio.ktboot.controller
 
 import com.portfolio.ktboot.form.*
 import com.portfolio.ktboot.orm.jpa.*
+import com.portfolio.ktboot.orm.jpa.entity.InquiryEntity
+import com.portfolio.ktboot.orm.jpa.repository.InquiryRepository
 import com.portfolio.ktboot.proto.combine
 import com.portfolio.ktboot.service.InquiryService
 import com.portfolio.ktboot.service.MemberService
@@ -25,9 +27,9 @@ import java.time.format.DateTimeFormatter
 @RestController
 @RequestMapping("/inquiry") // API 요청을 위한 기본 경로
 class InquiryController (
-        private val inquiryService: InquiryService,
-        private val inquiryRepository: InquiryRepository,
-        private val uploadController: UploadController
+    private val inquiryService: InquiryService,
+    private val inquiryRepository: InquiryRepository,
+    private val uploadController: UploadController
 ){
 
     @GetMapping("/one/{id}")

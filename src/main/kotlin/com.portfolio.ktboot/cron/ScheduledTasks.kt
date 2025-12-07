@@ -1,6 +1,6 @@
 package com.portfolio.ktboot.cron
 
-import com.portfolio.ktboot.orm.jpa.BlogRepository
+import com.portfolio.ktboot.orm.jpa.repository.BlogRepository
 import com.portfolio.ktboot.service.BlogService
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component

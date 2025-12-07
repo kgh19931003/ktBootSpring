@@ -2,8 +2,7 @@ package com.portfolio.ktboot.controller
 
 
 import com.portfolio.ktboot.form.*
-import com.portfolio.ktboot.orm.jpa.MemberEntity
-import com.portfolio.ktboot.orm.jpa.MemberRepository
+import com.portfolio.ktboot.orm.jpa.repository.MemberRepository
 import com.portfolio.ktboot.service.MemberService
 import com.portfolio.ktboot.utils.JwtTokenProvider
 import jakarta.transaction.Transactional

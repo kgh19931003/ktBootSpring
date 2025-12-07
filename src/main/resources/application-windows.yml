@@ -15,7 +15,7 @@ spring:
   datasource:
     url: jdbc:mariadb://localhost:3306/portfolio?useUnicode=true&characterEncoding=utf8mb4
     username: ENC(baB8CukL9Rz5rbaZ98en5A==)
-    password: ENC(8lNr4CEDkS++bweMyVVPyBfr6bAQeevP)
+    password: ENC(GpvfZu0lyDxRU5ys+pV0quz/Kg/9RWwd)
     hikari:
       pool-name: HikariPool
       maximum-pool-size: 10

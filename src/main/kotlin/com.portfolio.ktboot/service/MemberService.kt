@@ -6,8 +6,8 @@ import com.portfolio.ktboot.form.ListPagination
 import com.portfolio.ktboot.form.MemberList
 import com.portfolio.ktboot.form.MemberSearchForm
 import com.portfolio.ktboot.orm.jooq.MemberDslRepository
-import com.portfolio.ktboot.orm.jpa.MemberEntity
-import com.portfolio.ktboot.orm.jpa.MemberRepository
+import com.portfolio.ktboot.orm.jpa.entity.MemberEntity
+import com.portfolio.ktboot.orm.jpa.repository.MemberRepository
 import org.springframework.security.core.userdetails.User
 import org.springframework.stereotype.Service
 

@@ -1,4 +1,4 @@
-package com.portfolio.ktboot.orm.jpa
+package com.portfolio.ktboot.orm.jpa.entity
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import jakarta.persistence.*
@@ -10,8 +10,8 @@ import java.time.LocalDateTime
 
 
 @Entity
-@Table(name = "performance", schema = "portfolio", catalog = "")
-data class PerformanceEntity(
+@Table(name = "alloy", schema = "portfolio", catalog = "")
+data class AlloyEntity(
 
         @Id
         @Column(name = "idx")
@@ -22,7 +22,10 @@ data class PerformanceEntity(
         var language: String? = null,
 
         @Column(name = "category", nullable = true, length = 50)
-        var category: String? = null,
+        var category: String,
+
+        @Column(name = "type", nullable = true, length = 255)
+        var type: String? = null,
 
         @Column(name = "title", nullable = true, length = 255)
         var title: String? = null,

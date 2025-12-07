@@ -6,6 +6,8 @@ import com.portfolio.ktboot.form.*
 import com.portfolio.ktboot.orm.jooq.InquiryDslRepository
 import com.portfolio.ktboot.orm.jooq.PolicyDslRepository
 import com.portfolio.ktboot.orm.jpa.*
+import com.portfolio.ktboot.orm.jpa.entity.PolicyEntity
+import com.portfolio.ktboot.orm.jpa.repository.PolicyRepository
 import org.springframework.security.core.userdetails.User
 import org.springframework.stereotype.Service
 

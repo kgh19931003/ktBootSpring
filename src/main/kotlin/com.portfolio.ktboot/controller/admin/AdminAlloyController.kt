@@ -5,6 +5,10 @@ import com.portfolio.ktboot.controller.UploadController
 import com.portfolio.ktboot.form.*
 import com.portfolio.ktboot.model.Response
 import com.portfolio.ktboot.orm.jpa.*
+import com.portfolio.ktboot.orm.jpa.entity.AlloyEntity
+import com.portfolio.ktboot.orm.jpa.entity.AlloyFileEntity
+import com.portfolio.ktboot.orm.jpa.repository.AlloyFileRepository
+import com.portfolio.ktboot.orm.jpa.repository.AlloyRepository
 import com.portfolio.ktboot.proto.combine
 import com.portfolio.ktboot.service.DynamicImageCleanupService
 import com.portfolio.ktboot.service.ExcelService
@@ -20,12 +24,12 @@ import java.time.LocalDateTime
 @RestController
 @RequestMapping("/admin/alloy") // API 요청을 위한 기본 경로
 class AdminAlloyController (
-        private val alloyService: AlloyService,
-        private val alloyRepository: AlloyRepository,
-        private val alloyFileRepository: AlloyFileRepository,
-        private val excelService: ExcelService,
-        private val uploadController: UploadController,
-        private val dynamicImageCleanupService: DynamicImageCleanupService
+    private val alloyService: AlloyService,
+    private val alloyRepository: AlloyRepository,
+    private val alloyFileRepository: AlloyFileRepository,
+    private val excelService: ExcelService,
+    private val uploadController: UploadController,
+    private val dynamicImageCleanupService: DynamicImageCleanupService
 ){
 
     @GetMapping("/one/{id}")
@@ -139,7 +143,7 @@ class AdminAlloyController (
             val path = dir?.combine("/" +name)!!
 
             alloyFileRepository.decrementOrderGreaterThan(id , file.order).let{
-                uploadController.deleteImageFile(path).let{
+                uploadController.deleteFile(path, false).let{
                     alloyFileRepository.deleteByIdx(value)
                 }
             }
@@ -208,7 +212,7 @@ class AdminAlloyController (
                     val dir = file.dir ?: return@forEach
                     val name = file.name
                     val path = dir.combine("/" +name)!!
-                    uploadController.deleteImageFile(path)
+                    uploadController.deleteFile(path, false)
                 } catch (ex: Exception) {
                     println("파일 삭제 실패: ${ex.message}")
                 }
@@ -239,7 +243,7 @@ class AdminAlloyController (
             @RequestBody src: List<String>
     ): Any {
         println("srcsrcsrc : "+extarctS3Path(src[0]))
-        return uploadController.deleteImageFile(extarctS3Path(src[0]))
+        return uploadController.deleteFile(extarctS3Path(src[0]), false)
     }
 
     @GetMapping("/excel")

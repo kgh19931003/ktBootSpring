@@ -5,6 +5,8 @@ import com.portfolio.ktboot.controller.UploadController
 import com.portfolio.ktboot.form.*
 import com.portfolio.ktboot.model.Response
 import com.portfolio.ktboot.orm.jpa.*
+import com.portfolio.ktboot.orm.jpa.entity.BlogEntity
+import com.portfolio.ktboot.orm.jpa.repository.BlogRepository
 import com.portfolio.ktboot.service.BlogService
 import com.portfolio.ktboot.service.ExcelService
 import jakarta.servlet.http.HttpServletRequest
@@ -18,10 +20,10 @@ import org.springframework.core.env.Environment
 @RestController
 @RequestMapping("/admin/blog") // API 요청을 위한 기본 경로11
 class AdminBlogController (
-        private val blogService: BlogService,
-        private val blogRepository: BlogRepository,
-        private val excelService: ExcelService,
-        private val uploadController: UploadController
+    private val blogService: BlogService,
+    private val blogRepository: BlogRepository,
+    private val excelService: ExcelService,
+    private val uploadController: UploadController
 ){
 
     @Autowired

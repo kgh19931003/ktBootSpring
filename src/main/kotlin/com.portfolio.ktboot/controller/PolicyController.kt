@@ -3,6 +3,8 @@ package com.portfolio.ktboot.controller
 
 import com.portfolio.ktboot.form.*
 import com.portfolio.ktboot.orm.jpa.*
+import com.portfolio.ktboot.orm.jpa.entity.PolicyEntity
+import com.portfolio.ktboot.orm.jpa.repository.PolicyRepository
 import com.portfolio.ktboot.proto.combine
 import com.portfolio.ktboot.service.InquiryService
 import com.portfolio.ktboot.service.MemberService

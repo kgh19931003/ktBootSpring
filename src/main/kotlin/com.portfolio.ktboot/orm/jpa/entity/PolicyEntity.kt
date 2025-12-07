@@ -1,4 +1,4 @@
-package com.portfolio.ktboot.orm.jpa
+package com.portfolio.ktboot.orm.jpa.entity
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import jakarta.persistence.*
@@ -9,8 +9,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "blog", schema = "portfolio", catalog = "")
-data class BlogEntity (
+@Table(name = "policy", schema = "portfolio", catalog = "")
+data class PolicyEntity (
     @Id
     @Column(name = "idx", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // 자동 ID 생성 설정
@@ -19,31 +19,12 @@ data class BlogEntity (
     @Column(name = "language", nullable = true, length = 10)
     var language: String? = null,
 
-    @Column(name = "source_organ", nullable = true, length = 50)
-    var sourceOrgan: String? = null,
-
-    @Column(name = "title", nullable = true, length = 255)
-    var title: String? = null,
-
-    @Column(name = "subtitle", nullable = true, length = 255)
-    var subtitle: String? = null,
+    @Column(name = "type", nullable = true, length = 50)
+    var type: String? = null,
 
     @Column(name = "content", nullable = true, columnDefinition = "LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
     @Lob
     var content: String? = null,
-
-    @Column(name = "category", nullable = true)
-    var category: String? = null,
-
-    @Column(name = "reg_date", nullable = true)
-    var regDate: String? = null,
-
-    @Column(name = "secret", nullable = false, length = 1)
-    @ColumnDefault("'N'")
-    var secret: String? = "N",
-
-    @Column(name = "editor_image", nullable = true)
-    var editorImage: String? = null,
 
     @Column(name = "created_at", nullable = true, length = 50)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")

@@ -4,9 +4,8 @@ package com.portfolio.ktboot.service
 
 import com.portfolio.ktboot.form.*
 import com.portfolio.ktboot.orm.jooq.BlogDslRepository
-import com.portfolio.ktboot.orm.jpa.BlogEntity
-import com.portfolio.ktboot.orm.jpa.BlogRepository
-import com.portfolio.ktboot.orm.jpa.MemberEntity
+import com.portfolio.ktboot.orm.jpa.entity.BlogEntity
+import com.portfolio.ktboot.orm.jpa.repository.BlogRepository
 import org.springframework.security.core.userdetails.User
 import org.springframework.stereotype.Service
 

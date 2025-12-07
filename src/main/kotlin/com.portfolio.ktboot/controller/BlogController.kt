@@ -5,6 +5,8 @@ import com.portfolio.ktboot.form.*
 import com.portfolio.ktboot.interceptor.SkipAuth
 import com.portfolio.ktboot.model.Response
 import com.portfolio.ktboot.orm.jpa.*
+import com.portfolio.ktboot.orm.jpa.entity.BlogEntity
+import com.portfolio.ktboot.orm.jpa.repository.BlogRepository
 import com.portfolio.ktboot.proto.combine
 import com.portfolio.ktboot.proto.isInt
 import com.portfolio.ktboot.proto.isNotNull
@@ -34,9 +36,9 @@ import tikaAllowedImageFile
 @RestController
 @RequestMapping("/blog") // API 요청을 위한 기본 경로11
 class BlogController (
-        private val blogService: BlogService,
-        private val blogRepository: BlogRepository,
-        private val excelService: ExcelService,
+    private val blogService: BlogService,
+    private val blogRepository: BlogRepository,
+    private val excelService: ExcelService,
 ){
 
     @Autowired

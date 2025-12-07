@@ -1,4 +1,4 @@
-package com.portfolio.ktboot.orm.jpa
+package com.portfolio.ktboot.orm.jpa.entity
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import jakarta.persistence.*
@@ -9,17 +9,18 @@ import java.time.LocalDateTime
 
 
 @Entity
-@Table(name = "blog_file", schema = "portfolio", catalog = "")
-open class BlogFileEntity (
+@Table(name = "performance_file", schema = "portfolio", catalog = "")
+data class PerformanceFileEntity (
+
     @Id
-    @Column(name = "idx", nullable = false)
+    @Column(name = "idx")
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // 자동 ID 생성 설정
     var idx: Int? = null,
 
     @Column(name = "language", nullable = true, length = 10)
     var language: String? = null,
 
-    @Column(name = "parent_idx", nullable = false)
+    @Column(name = "parent_idx", nullable = true)
     var parentIdx: Int? = null,
 
     @Column(name = "origin_name", nullable = true)
@@ -37,24 +38,28 @@ open class BlogFileEntity (
     @Column(name = "size", nullable = true)
     var size: Double? = null,
 
-    @Column(name = "content_type", nullable = true)
+    @Column(name = "content_type", nullable = true, length = 50)
     var contentType: String? = null,
 
     @Column(name = "`order`", nullable = true)
     var order: Int? = null,
 
-    @Column(name = "uuid", nullable = true)
+    @Column(name = "uuid", nullable = true, length = 255)
     var uuid: String? = null,
 
-    @Column(name = "created_at", nullable = true)
+    @Column(name = "created_at", nullable = true, length = 50)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     var createdAt: LocalDateTime? = null,
 
-    @Column(name = "updated_at", nullable = true)
+    @Column(name = "updated_at", nullable = true, length = 50)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     var updatedAt: LocalDateTime? = null,
 
-    @Column(name = "deleted_at", nullable = true)
+    @Column(name = "deleted_at", nullable = true, length = 50)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    var deletedAt: LocalDateTime? = null,
-){}
+    var deletedAt: LocalDateTime? = null
+
+
+)
+{}
+

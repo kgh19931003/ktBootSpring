@@ -4,9 +4,8 @@ package com.portfolio.ktboot.service
 
 import com.portfolio.ktboot.form.*
 import com.portfolio.ktboot.orm.jooq.InquiryDslRepository
-import com.portfolio.ktboot.orm.jpa.InquiryEntity
-import com.portfolio.ktboot.orm.jpa.InquiryRepository
-import com.portfolio.ktboot.orm.jpa.MemberEntity
+import com.portfolio.ktboot.orm.jpa.entity.InquiryEntity
+import com.portfolio.ktboot.orm.jpa.repository.InquiryRepository
 import org.springframework.security.core.userdetails.User
 import org.springframework.stereotype.Service
 

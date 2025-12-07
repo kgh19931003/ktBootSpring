@@ -2,17 +2,17 @@ package com.portfolio.ktboot.service
 
 import com.portfolio.ktboot.form.*
 import com.portfolio.ktboot.orm.jooq.AlloyDslRepository
-import com.portfolio.ktboot.orm.jpa.AlloyEntity
-import com.portfolio.ktboot.orm.jpa.AlloyFileEntity
-import com.portfolio.ktboot.orm.jpa.AlloyFileRepository
-import com.portfolio.ktboot.orm.jpa.AlloyRepository
+import com.portfolio.ktboot.orm.jpa.entity.AlloyEntity
+import com.portfolio.ktboot.orm.jpa.entity.AlloyFileEntity
+import com.portfolio.ktboot.orm.jpa.repository.AlloyFileRepository
+import com.portfolio.ktboot.orm.jpa.repository.AlloyRepository
 import org.springframework.stereotype.Service
 
 @Service
 class AlloyService(
-        private val alloyDslRepository: AlloyDslRepository,
-        private val alloyRepository: AlloyRepository,
-        private val alloyImgRepository: AlloyFileRepository
+    private val alloyDslRepository: AlloyDslRepository,
+    private val alloyRepository: AlloyRepository,
+    private val alloyImgRepository: AlloyFileRepository
 ) {
 
     /**

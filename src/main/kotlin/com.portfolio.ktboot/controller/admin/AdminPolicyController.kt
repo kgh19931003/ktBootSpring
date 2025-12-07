@@ -4,6 +4,8 @@ package com.portfolio.ktboot.controller.admin
 import com.portfolio.ktboot.controller.UploadController
 import com.portfolio.ktboot.form.*
 import com.portfolio.ktboot.orm.jpa.*
+import com.portfolio.ktboot.orm.jpa.entity.PolicyEntity
+import com.portfolio.ktboot.orm.jpa.repository.PolicyRepository
 import com.portfolio.ktboot.service.PolicyService
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.transaction.Transactional
@@ -14,9 +16,9 @@ import java.time.LocalDateTime
 @RestController
 @RequestMapping("/admin/policy") // API 요청을 위한 기본 경로
 class AdminPolicyController (
-        private val policyService: PolicyService,
-        private val policyRepository: PolicyRepository,
-        private val uploadController: UploadController
+    private val policyService: PolicyService,
+    private val policyRepository: PolicyRepository,
+    private val uploadController: UploadController
 ){
 
     @GetMapping("/one/{id}")

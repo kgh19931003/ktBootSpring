@@ -5,6 +5,10 @@ import com.portfolio.ktboot.controller.UploadController
 import com.portfolio.ktboot.form.*
 import com.portfolio.ktboot.model.Response
 import com.portfolio.ktboot.orm.jpa.*
+import com.portfolio.ktboot.orm.jpa.entity.PerformanceEntity
+import com.portfolio.ktboot.orm.jpa.entity.PerformanceFileEntity
+import com.portfolio.ktboot.orm.jpa.repository.PerformanceFileRepository
+import com.portfolio.ktboot.orm.jpa.repository.PerformanceRepository
 import com.portfolio.ktboot.proto.combine
 import com.portfolio.ktboot.service.DynamicImageCleanupService
 import com.portfolio.ktboot.service.ExcelService
@@ -20,12 +24,12 @@ import java.time.LocalDateTime
 @RestController
 @RequestMapping("/admin/performance") // API 요청을 위한 기본 경로
 class AdminPerformanceController (
-        private val performanceService: PerformanceService,
-        private val performanceRepository: PerformanceRepository,
-        private val performanceFileRepository: PerformanceFileRepository,
-        private val excelService: ExcelService,
-        private val uploadController: UploadController,
-        private val dynamicImageCleanupService: DynamicImageCleanupService
+    private val performanceService: PerformanceService,
+    private val performanceRepository: PerformanceRepository,
+    private val performanceFileRepository: PerformanceFileRepository,
+    private val excelService: ExcelService,
+    private val uploadController: UploadController,
+    private val dynamicImageCleanupService: DynamicImageCleanupService
 ){
 
     @GetMapping("/one/{id}")
@@ -137,7 +141,7 @@ class AdminPerformanceController (
             val path = dir?.combine("/" +name)!!
 
             performanceFileRepository.decrementOrderGreaterThan(id , file.order).let{
-                uploadController.deleteImageFile(path).let{
+                uploadController.deleteFile(path, false).let{
                     performanceFileRepository.deleteByIdx(value)
                 }
             }
@@ -206,7 +210,7 @@ class AdminPerformanceController (
                     val dir = file.dir ?: return@forEach
                     val name = file.name
                     val path = dir.combine("/" +name)!!
-                    uploadController.deleteImageFile(path)
+                    uploadController.deleteFile(path, false)
                 } catch (ex: Exception) {
                     println("파일 삭제 실패: ${ex.message}")
                 }
@@ -237,7 +241,7 @@ class AdminPerformanceController (
             @RequestBody src: List<String>
     ): Any {
         println("srcsrcsrc : "+extarctS3Path(src[0]))
-        return uploadController.deleteImageFile(extarctS3Path(src[0]))
+        return uploadController.deleteFile(extarctS3Path(src[0]), false)
     }
 
     @GetMapping("/excel")

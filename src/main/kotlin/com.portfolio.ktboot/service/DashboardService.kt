@@ -7,8 +7,6 @@ import com.portfolio.ktboot.form.MemberList
 import com.portfolio.ktboot.form.MemberSearchForm
 import com.portfolio.ktboot.orm.jooq.DashboardDslRepository
 import com.portfolio.ktboot.orm.jooq.MemberDslRepository
-import com.portfolio.ktboot.orm.jpa.MemberEntity
-import com.portfolio.ktboot.orm.jpa.MemberRepository
 import org.springframework.security.core.userdetails.User
 import org.springframework.stereotype.Service
 import kotlin.math.roundToInt

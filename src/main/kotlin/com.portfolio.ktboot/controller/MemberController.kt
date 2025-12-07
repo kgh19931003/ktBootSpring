@@ -3,8 +3,8 @@ package com.portfolio.ktboot.controller
 
 import com.portfolio.ktboot.form.*
 import com.portfolio.ktboot.model.Response
-import com.portfolio.ktboot.orm.jpa.MemberEntity
-import com.portfolio.ktboot.orm.jpa.MemberRepository
+import com.portfolio.ktboot.orm.jpa.entity.MemberEntity
+import com.portfolio.ktboot.orm.jpa.repository.MemberRepository
 import com.portfolio.ktboot.service.ExcelService
 import com.portfolio.ktboot.service.MemberService
 import jakarta.servlet.http.HttpServletResponse

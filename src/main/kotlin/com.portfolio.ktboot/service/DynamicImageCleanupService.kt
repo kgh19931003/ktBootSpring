@@ -1,6 +1,6 @@
 package com.portfolio.ktboot.service
 
-import com.portfolio.ktboot.orm.jpa.ImageIntegrateRepository
+import com.portfolio.ktboot.orm.jpa.repository.ImageIntegrateRepository
 import extarctS3Path
 import org.jsoup.Jsoup
 import org.springframework.beans.factory.annotation.Value
@@ -14,12 +14,12 @@ import software.amazon.awssdk.services.s3.S3Client
 
 @Service
 class DynamicImageCleanupService(
-        private val jdbcTemplate: JdbcTemplate,
-        private val imageRepository: ImageIntegrateRepository,
-        @Value("\${aws.s3.bucket}") private val bucketName: String,
-        @Value("\${aws.s3.region}") private val region: String,
-        @Value("\${aws.s3.access-key}") private val accessKey: String,
-        @Value("\${aws.s3.secret-key}") private val secretKey: String
+    private val jdbcTemplate: JdbcTemplate,
+    private val imageRepository: ImageIntegrateRepository,
+    @Value("\${aws.s3.bucket}") private val bucketName: String,
+    @Value("\${aws.s3.region}") private val region: String,
+    @Value("\${aws.s3.access-key}") private val accessKey: String,
+    @Value("\${aws.s3.secret-key}") private val secretKey: String
 ) {
 
     private val s3: S3Client = S3Client.builder()

@@ -1,4 +1,4 @@
-package com.portfolio.ktboot.orm.jpa
+package com.portfolio.ktboot.orm.jpa.entity
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import jakarta.persistence.*
@@ -9,18 +9,17 @@ import java.time.LocalDateTime
 
 
 @Entity
-@Table(name = "alloy_file", schema = "portfolio", catalog = "")
-data class AlloyFileEntity (
-
+@Table(name = "blog_file", schema = "portfolio", catalog = "")
+open class BlogFileEntity (
     @Id
-    @Column(name = "idx")
+    @Column(name = "idx", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // 자동 ID 생성 설정
     var idx: Int? = null,
 
     @Column(name = "language", nullable = true, length = 10)
     var language: String? = null,
 
-    @Column(name = "parent_idx", nullable = true)
+    @Column(name = "parent_idx", nullable = false)
     var parentIdx: Int? = null,
 
     @Column(name = "origin_name", nullable = true)
@@ -38,28 +37,24 @@ data class AlloyFileEntity (
     @Column(name = "size", nullable = true)
     var size: Double? = null,
 
-    @Column(name = "content_type", nullable = true, length = 50)
+    @Column(name = "content_type", nullable = true)
     var contentType: String? = null,
 
     @Column(name = "`order`", nullable = true)
     var order: Int? = null,
 
-    @Column(name = "uuid", nullable = true, length = 255)
+    @Column(name = "uuid", nullable = true)
     var uuid: String? = null,
 
-    @Column(name = "created_at", nullable = true, length = 50)
+    @Column(name = "created_at", nullable = true)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     var createdAt: LocalDateTime? = null,
 
-    @Column(name = "updated_at", nullable = true, length = 50)
+    @Column(name = "updated_at", nullable = true)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     var updatedAt: LocalDateTime? = null,
 
-    @Column(name = "deleted_at", nullable = true, length = 50)
+    @Column(name = "deleted_at", nullable = true)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    var deletedAt: LocalDateTime? = null
-
-
-)
-{}
-
+    var deletedAt: LocalDateTime? = null,
+){}

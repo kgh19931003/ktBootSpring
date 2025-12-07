@@ -1,4 +1,4 @@
-package com.portfolio.ktboot.orm.jpa
+package com.portfolio.ktboot.orm.jpa.entity
 
 import jakarta.persistence.*
 

@@ -3,6 +3,8 @@ package com.portfolio.ktboot.controller.admin
 
 import com.portfolio.ktboot.form.*
 import com.portfolio.ktboot.orm.jpa.*
+import com.portfolio.ktboot.orm.jpa.entity.InquiryEntity
+import com.portfolio.ktboot.orm.jpa.repository.InquiryRepository
 import com.portfolio.ktboot.proto.combine
 import com.portfolio.ktboot.service.InquiryService
 import jakarta.transaction.Transactional

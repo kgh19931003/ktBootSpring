@@ -4,6 +4,10 @@ package com.portfolio.ktboot.controller
 import com.portfolio.ktboot.form.*
 import com.portfolio.ktboot.model.Response
 import com.portfolio.ktboot.orm.jpa.*
+import com.portfolio.ktboot.orm.jpa.entity.PerformanceEntity
+import com.portfolio.ktboot.orm.jpa.entity.PerformanceFileEntity
+import com.portfolio.ktboot.orm.jpa.repository.PerformanceFileRepository
+import com.portfolio.ktboot.orm.jpa.repository.PerformanceRepository
 import com.portfolio.ktboot.proto.combine
 import com.portfolio.ktboot.service.ExcelService
 import com.portfolio.ktboot.service.PerformanceService
@@ -25,10 +29,10 @@ import java.util.*
 @RestController
 @RequestMapping("/performance") // API 요청을 위한 기본 경로
 class PerformanceController (
-        private val performanceService: PerformanceService,
-        private val performanceRepository: PerformanceRepository,
-        private val performanceFileRepository: PerformanceFileRepository,
-        private val excelService: ExcelService
+    private val performanceService: PerformanceService,
+    private val performanceRepository: PerformanceRepository,
+    private val performanceFileRepository: PerformanceFileRepository,
+    private val excelService: ExcelService
 ){
 
     @GetMapping("/one/{id}")

@@ -4,6 +4,10 @@ package com.portfolio.ktboot.controller.admin
 import com.portfolio.ktboot.form.*
 import com.portfolio.ktboot.model.Response
 import com.portfolio.ktboot.orm.jpa.*
+import com.portfolio.ktboot.orm.jpa.entity.ProductEntity
+import com.portfolio.ktboot.orm.jpa.entity.ProductFileEntity
+import com.portfolio.ktboot.orm.jpa.repository.ProductFileRepository
+import com.portfolio.ktboot.orm.jpa.repository.ProductRepository
 import com.portfolio.ktboot.proto.combine
 import com.portfolio.ktboot.service.ExcelService
 import com.portfolio.ktboot.service.ProductService
@@ -21,10 +25,10 @@ import java.time.LocalDateTime
 @RestController
 @RequestMapping("/admin/product") // API 요청을 위한 기본 경로
 class AdminProductController (
-        private val productService: ProductService,
-        private val productRepository: ProductRepository,
-        private val productFileRepository: ProductFileRepository,
-        private val excelService: ExcelService
+    private val productService: ProductService,
+    private val productRepository: ProductRepository,
+    private val productFileRepository: ProductFileRepository,
+    private val excelService: ExcelService
 ){
 
     @GetMapping("/one/{id}")

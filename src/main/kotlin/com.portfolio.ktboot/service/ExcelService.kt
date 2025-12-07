@@ -1,7 +1,6 @@
 package com.portfolio.ktboot.service
 
 import com.portfolio.ktboot.form.*
-import com.portfolio.ktboot.orm.jpa.MemberRepository
 import jakarta.servlet.http.HttpServletResponse
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.springframework.stereotype.Service

@@ -5,6 +5,10 @@ import com.portfolio.ktboot.controller.UploadController
 import com.portfolio.ktboot.form.*
 import com.portfolio.ktboot.model.Response
 import com.portfolio.ktboot.orm.jpa.*
+import com.portfolio.ktboot.orm.jpa.entity.AlloyEntity
+import com.portfolio.ktboot.orm.jpa.entity.AlloyFileEntity
+import com.portfolio.ktboot.orm.jpa.repository.AlloyFileRepository
+import com.portfolio.ktboot.orm.jpa.repository.AlloyRepository
 import com.portfolio.ktboot.proto.combine
 import com.portfolio.ktboot.service.DynamicImageCleanupService
 import com.portfolio.ktboot.service.ExcelService
@@ -20,12 +24,12 @@ import java.time.LocalDateTime
 @RestController
 @RequestMapping("/alloy") // API 요청을 위한 기본 경로
 class AlloyController (
-        private val alloyService: AlloyService,
-        private val alloyRepository: AlloyRepository,
-        private val alloyFileRepository: AlloyFileRepository,
-        private val excelService: ExcelService,
-        private val uploadController: UploadController,
-        private val dynamicImageCleanupService: DynamicImageCleanupService
+    private val alloyService: AlloyService,
+    private val alloyRepository: AlloyRepository,
+    private val alloyFileRepository: AlloyFileRepository,
+    private val excelService: ExcelService,
+    private val uploadController: UploadController,
+    private val dynamicImageCleanupService: DynamicImageCleanupService
 ){
 
     @GetMapping("/one/{id}")
@@ -33,10 +37,10 @@ class AlloyController (
         return alloyService.getAlloyOne(id).let{ prdInfo ->
             var file = alloyService.getfileOne(id)
             prdInfo.copy(
-                    fileIndex = file.map { it.idx },
-                    fileOrder = file.map { it.order },
-                    fileImage = file.map { it.src },
-                    fileUuid = file.map { it.uuid }
+                fileIndex = file.map { it.idx },
+                fileOrder = file.map { it.order },
+                fileImage = file.map { it.src },
+                fileUuid = file.map { it.uuid }
             )
         }
     }
@@ -55,18 +59,18 @@ class AlloyController (
     @PostMapping("/create")
     @Transactional
     fun alloyCreate(
-            @RequestPart("form") form: AlloyCreateForm,
-            @RequestPart("fileImage", required = false) files: List<MultipartFile>?
+        @RequestPart("form") form: AlloyCreateForm,
+        @RequestPart("fileImage", required = false) files: List<MultipartFile>?
     ): Any? {
         println("files = ${files?.map { it.originalFilename }}")
         val alloyEntity = AlloyEntity(
-                language = form.language,
-                category = "default",
-                type = form.type,
-                title = form.title,
-                subtitle = form.subtitle,
-                content = form.content,
-                createdAt = LocalDateTime.now()
+            language = form.language,
+            category = "default",
+            type = form.type,
+            title = form.title,
+            subtitle = form.subtitle,
+            content = form.content,
+            createdAt = LocalDateTime.now()
         )
 
         //println("AlloyUpdateForm : "+form)
@@ -80,17 +84,17 @@ class AlloyController (
                     val uploaded = uploadController.imageUpload(file, arrayOf("uploads", "alloy", "images"))
 
                     alloyFileRepository.save(
-                            AlloyFileEntity(
-                                    language = form.language,
-                                    parentIdx = it.idx,
-                                    originName = uploaded["originalName"],
-                                    name = uploaded["savedName"],
-                                    dir = uploaded["relativePath"],
-                                    src = uploaded["src"],
-                                    size = uploaded["size"]?.toDouble(),
-                                    contentType = file.contentType?.substringAfter("/") ?: uploaded["extension"],
-                                    createdAt = LocalDateTime.now()
-                            )
+                        AlloyFileEntity(
+                            language = form.language,
+                            parentIdx = it.idx,
+                            originName = uploaded["originalName"],
+                            name = uploaded["savedName"],
+                            dir = uploaded["relativePath"],
+                            src = uploaded["src"],
+                            size = uploaded["size"]?.toDouble(),
+                            contentType = file.contentType?.substringAfter("/") ?: uploaded["extension"],
+                            createdAt = LocalDateTime.now()
+                        )
                     )
                 }
 
@@ -115,19 +119,19 @@ class AlloyController (
     @PostMapping("/update/{id}")
     @Transactional
     fun alloyUpdate(
-            @PathVariable id: Int,
-            @RequestPart("form") form: AlloyUpdateForm,
-            @RequestPart("fileImage", required = false) files: List<MultipartFile>?
+        @PathVariable id: Int,
+        @RequestPart("form") form: AlloyUpdateForm,
+        @RequestPart("fileImage", required = false) files: List<MultipartFile>?
     ): Any? {
         val alloy = alloyRepository.findByIdx(id).copy(
-                idx = id,
-                language = form.language,
-                category = "default",
-                type = form.type,
-                title = form.title,
-                subtitle = form.subtitle,
-                content = form.content,
-                updatedAt = LocalDateTime.now()
+            idx = id,
+            language = form.language,
+            category = "default",
+            type = form.type,
+            title = form.title,
+            subtitle = form.subtitle,
+            content = form.content,
+            updatedAt = LocalDateTime.now()
         )
 
         // 이미 등록되어있는 파일 삭제
@@ -139,7 +143,7 @@ class AlloyController (
             val path = dir?.combine("/" +name)!!
 
             alloyFileRepository.decrementOrderGreaterThan(id , file.order).let{
-                uploadController.deleteImageFile(path).let{
+                uploadController.deleteFile(path, false).let{
                     alloyFileRepository.deleteByIdx(value)
                 }
             }
@@ -158,18 +162,18 @@ class AlloyController (
                 val multipartFileOrder = form.fileMultipartFileOrder?.get(index)
 
                 alloyFileRepository.save(
-                        AlloyFileEntity(
-                                language = form.language,
-                                parentIdx = id,
-                                originName = uploaded["originalName"],
-                                name = uploaded["savedName"],
-                                dir = uploaded["relativePath"],
-                                src = uploaded["src"],
-                                size = uploaded["size"]?.toDouble(),
-                                order = multipartFileOrder,
-                                contentType = file.contentType?.substringAfter("/") ?: uploaded["extension"],
-                                createdAt = LocalDateTime.now()
-                        )
+                    AlloyFileEntity(
+                        language = form.language,
+                        parentIdx = id,
+                        originName = uploaded["originalName"],
+                        name = uploaded["savedName"],
+                        dir = uploaded["relativePath"],
+                        src = uploaded["src"],
+                        size = uploaded["size"]?.toDouble(),
+                        order = multipartFileOrder,
+                        contentType = file.contentType?.substringAfter("/") ?: uploaded["extension"],
+                        createdAt = LocalDateTime.now()
+                    )
                 )
 
             }
@@ -184,9 +188,9 @@ class AlloyController (
 
                 val alloyInfo = alloyFileRepository.findByIdx(value)
                 alloyFileRepository.save(
-                        alloyInfo?.copy(
-                                order = imageOrder
-                        )
+                    alloyInfo?.copy(
+                        order = imageOrder
+                    )
                 )
             }
 
@@ -208,7 +212,7 @@ class AlloyController (
                     val dir = file.dir ?: return@forEach
                     val name = file.name
                     val path = dir.combine("/" +name)!!
-                    uploadController.deleteImageFile(path)
+                    uploadController.deleteFile(path, false)
                 } catch (ex: Exception) {
                     println("파일 삭제 실패: ${ex.message}")
                 }
@@ -216,9 +220,9 @@ class AlloyController (
 
             alloyRepository.deleteById(id)
             alloyFileRepository.deleteByParentIdx(id)
-            Response.success("회원 삭제 성공")
+            Response.success("합금 삭제 성공")
         } catch (ex: Exception) {
-            Response.fail("회원 삭제 실패: ${ex.message}")
+            Response.fail("합금 삭제 실패: ${ex.message}")
         }
     }
 
@@ -226,9 +230,9 @@ class AlloyController (
     @PostMapping("/imageUpload/{idx}")
     @Transactional
     fun alloyEditorImageUpload(
-            @PathVariable idx: String,
-            @RequestPart("file", required = false) file: MultipartFile,
-            request: HttpServletRequest
+        @PathVariable idx: String,
+        @RequestPart("file", required = false) file: MultipartFile,
+        request: HttpServletRequest
     ): Any {
         return uploadController.editorImageUpload(file, arrayOf("uploads", "editor", "alloy", "images"))
     }
@@ -236,16 +240,16 @@ class AlloyController (
     @PostMapping("/imageDelete")
     @Transactional
     fun alloyEditorImageDelete(
-            @RequestBody src: List<String>
+        @RequestBody src: List<String>
     ): Any {
         println("srcsrcsrc : "+extarctS3Path(src[0]))
-        return uploadController.deleteImageFile(extarctS3Path(src[0]))
+        return uploadController.deleteFile(extarctS3Path(src[0]), false)
     }
 
     @GetMapping("/excel")
     fun downloadAlloyListExcel(
-            @ModelAttribute form: AlloySearchForm,
-            response: HttpServletResponse
+        @ModelAttribute form: AlloySearchForm,
+        response: HttpServletResponse
     ) {
         excelService.alloyExcelDownload(alloyService.getAlloyList(form), response, "상품목록")
     }

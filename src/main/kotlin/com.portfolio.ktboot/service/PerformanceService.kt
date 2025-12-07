@@ -2,17 +2,17 @@ package com.portfolio.ktboot.service
 
 import com.portfolio.ktboot.form.*
 import com.portfolio.ktboot.orm.jooq.PerformanceDslRepository
-import com.portfolio.ktboot.orm.jpa.PerformanceEntity
-import com.portfolio.ktboot.orm.jpa.PerformanceFileEntity
-import com.portfolio.ktboot.orm.jpa.PerformanceFileRepository
-import com.portfolio.ktboot.orm.jpa.PerformanceRepository
+import com.portfolio.ktboot.orm.jpa.entity.PerformanceEntity
+import com.portfolio.ktboot.orm.jpa.entity.PerformanceFileEntity
+import com.portfolio.ktboot.orm.jpa.repository.PerformanceFileRepository
+import com.portfolio.ktboot.orm.jpa.repository.PerformanceRepository
 import org.springframework.stereotype.Service
 
 @Service
 class PerformanceService(
-        private val performanceDslRepository: PerformanceDslRepository,
-        private val performanceRepository: PerformanceRepository,
-        private val performanceImgRepository: PerformanceFileRepository
+    private val performanceDslRepository: PerformanceDslRepository,
+    private val performanceRepository: PerformanceRepository,
+    private val performanceImgRepository: PerformanceFileRepository
 ) {
 
     /**

@@ -1,7 +1,6 @@
-package com.portfolio.ktboot.orm.jpa
+package com.portfolio.ktboot.orm.jpa.repository
 
-import com.portfolio.ktboot.orm.jpa.MemberEntity
-import org.jooq.impl.QOM.Uuid
+import com.portfolio.ktboot.orm.jpa.entity.MemberEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
