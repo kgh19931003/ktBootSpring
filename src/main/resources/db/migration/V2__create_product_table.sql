@@ -4,7 +4,7 @@ CREATE TABLE `product` (
                               `category` VARCHAR(50),
                               `name` VARCHAR(255) NOT NULL,
                               `price` INT NOT NULL,
-                              `dis_price` INT NOT NULL,
+                              `dis_price` INT,
                               `dis_percent` VARCHAR(50),
                               `dis_type` VARCHAR(50),
                               `thumbnail` VARCHAR(255),

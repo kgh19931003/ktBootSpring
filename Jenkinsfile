@@ -15,7 +15,7 @@ pipeline {
 
                     sh """
                         ssh -i '${env.SSH_KEY_PATH}' -o StrictHostKeyChecking=no ${env.REMOTE_USER}@${env.REMOTE_SERVER} '
-                            cd ${env.portfolio_API_REMOTE_PATH} && \
+                            cd ${env.PORTFOLIO_API_REMOTE_PATH} && \
                             git reset --hard && \
                             git pull origin main && \
                             echo "✅ git pull 완료"
@@ -32,7 +32,7 @@ pipeline {
 
                     sh """
                         ssh -i '${env.SSH_KEY_PATH}' -o StrictHostKeyChecking=no ${env.REMOTE_USER}@${env.REMOTE_SERVER} '
-                            cd ${env.portfolio_API_REMOTE_PATH} && \
+                            cd ${env.PORTFOLIO_API_REMOTE_PATH} && \
 
                             # 5️⃣ 초기 도커 시스템 정리
                             docker system prune -a --volumes --force
