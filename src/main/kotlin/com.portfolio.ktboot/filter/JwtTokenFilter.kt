@@ -15,7 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
-@Component
+//@Component
 class JwtTokenFilter (
         private val memberService: MemberService,
         private val jwtTokenProvider: JwtTokenProvider
@@ -29,6 +29,9 @@ class JwtTokenFilter (
     ) {
 
         val path = request.requestURI
+        println("path : "+path)
+        filterChain.doFilter(request, response)
+        return
 
         // 🔑 로그인 관련 엔드포인트는 JWT 검사 건너뜀
         if (path.startsWith("/auth/") || path.startsWith("/login/")) {
@@ -37,8 +40,10 @@ class JwtTokenFilter (
         }
 
         try {
-            jwtTokenProvider.resolveToken(request).let{
-                if(it.isNotBlank()) jwtVerify(request, response, filterChain)
+            val token = jwtTokenProvider.resolveToken(request)
+            // ✅ 추가: 토큰 형식 검증
+            if(token.isNotBlank() && token.count { it == '.' } == 2) {
+                jwtVerify(request, response, filterChain)
             }
         } catch (e: ExpiredJwtException) {
             logger.error("ExpiredJwtException: ${e.message}")
@@ -49,24 +54,9 @@ class JwtTokenFilter (
     }
 
     override fun shouldNotFilter(request: HttpServletRequest): Boolean {
-        val pathsToExclude = listOf(
-            "/test",
-            "/favicon.ico",
-            "/actuator",
-            "/error",
-            "/swagger-ui",
-            "/swagger-resources",
-            "/v3/api-docs",
-            "/v1/api-docs",
-            "/v3/api-docs/swagger-config",
-            "/swagger-ui/index.html",
-            "/login/**",
-            "/blog/list",
-            "/api/**",
-        )
-        //println("Request URI: ${request.requestURI}")
-        val path = request.requestURI
-        return pathsToExclude.any { path.startsWith(it) }
+        // 모든 경로를 허용하려면 이 메서드를 false로 반환하거나
+        // 아예 제거해도 됩니다 (기본값은 false)
+        return true
     }
 
 

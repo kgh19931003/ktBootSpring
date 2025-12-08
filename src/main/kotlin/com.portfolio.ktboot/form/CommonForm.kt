@@ -118,41 +118,12 @@ data class FileUploadDetailResponse(
         val fileImageMultipartFileOrder: List<Int> = emptyList(),
         val fileImageOriginalName: List<String> = emptyList(),
         // 금속 비디오
-        val fileFileImage: List<String> = emptyList(),
-        val fileFileIndex: List<Int> = emptyList(),
-        val fileFileOrder: List<Int> = emptyList(),
-        val fileFileDeleteIndex: List<Int> = emptyList(),
-        val fileFileMultipartFileOrder: List<Int> = emptyList(),
-        val fileFileOriginalName: List<String> = emptyList(),
-
-        // 플라스틱 이미지
-        val plasticImage: List<String> = emptyList(),
-        val plasticImageIndex: List<Int> = emptyList(),
-        val plasticImageOrder: List<Int> = emptyList(),
-        val plasticImageDeleteIndex: List<Int> = emptyList(),
-        val plasticImageMultipartFileOrder: List<Int> = emptyList(),
-        val plasticImageOriginalName: List<String> = emptyList(),
-        // 플라스틱 비디오
-        val plasticFileImage: List<String> = emptyList(),
-        val plasticFileIndex: List<Int> = emptyList(),
-        val plasticFileOrder: List<Int> = emptyList(),
-        val plasticFileDeleteIndex: List<Int> = emptyList(),
-        val plasticFileMultipartFileOrder: List<Int> = emptyList(),
-        val plasticFileOriginalName: List<String> = emptyList(),
-        // 보수 이미지
-        val repairImage: List<String> = emptyList(),
-        val repairImageIndex: List<Int> = emptyList(),
-        val repairImageOrder: List<Int> = emptyList(),
-        val repairImageDeleteIndex: List<Int> = emptyList(),
-        val repairImageMultipartFileOrder: List<Int> = emptyList(),
-        val repairImageOriginalName: List<String> = emptyList(),
-        // 보수 비디오
-        val repairFileImage: List<String> = emptyList(),
-        val repairFileIndex: List<Int> = emptyList(),
-        val repairFileOrder: List<Int> = emptyList(),
-        val repairFileDeleteIndex: List<Int> = emptyList(),
-        val repairFileMultipartFileOrder: List<Int> = emptyList(),
-        val repairFileOriginalName: List<String> = emptyList(),
+        val fileVideo: List<String> = emptyList(),
+        val fileIndex: List<Int> = emptyList(),
+        val fileOrder: List<Int> = emptyList(),
+        val fileDeleteIndex: List<Int> = emptyList(),
+        val fileMultipartFileOrder: List<Int> = emptyList(),
+        val fileOriginalName: List<String> = emptyList(),
 )
 
 

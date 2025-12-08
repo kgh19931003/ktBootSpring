@@ -40,13 +40,14 @@ class WebSecurityConfig {
     }
 
     @Bean
-    fun filterChain(http: HttpSecurity, jwtTokenFilter: JwtTokenFilter): SecurityFilterChain {
+    fun filterChain(http: HttpSecurity): SecurityFilterChain {
 
         http.csrf { it.disable() }
         http.logout { it.disable() }
         http.cors { it.configurationSource(corsConfigurationSource()) }  // CORS 설정 적용
         http.sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
         // 예외 처리 추가
+        /*
         http.exceptionHandling {
             it.authenticationEntryPoint { request, response, authException ->
                 response.contentType = "application/json"
@@ -64,46 +65,11 @@ class WebSecurityConfig {
                 )
             }
         }
+         */
         http.authorizeHttpRequests {
-            it.requestMatchers(
-                //"/**",
-                //"/swagger-ui/**",
-                //"/swagger-ui.html",
-                //"/swagger-resources/**",
-                //"/v3/api-docs/**",
-                //"/v3/api-docs/swagger-config",
-                //"/webjars/**",
-                //"/auth/**",
-                //"/auth/login",
-                //"/member/**",
-                //"/product/**",
-                //"/dashboard/**",
-                //"/blog/**",
-                //"/admin/blog/**",
-                //"/inquiry/**",
-                //"/policy/**",
-                //"/product/**",
-                //"/performance/**",
-                //"/alloy/**",
-                "/**",
-                //"/api/**",
-                "/kakao-pay/**",
-                "/naver-pay/**",
-                "/nice-pay/**",
-                "/login/**",
-                "/edit/**",
-                "/kotlin/**",
-                "/php/**",
-                "/resources/**",
-                "/api/upload/**",
-                "/upload/**",
-                "/uploads/**",
-                "/error"
-            )
-                .permitAll()
-                .anyRequest().authenticated()
+            it.anyRequest().permitAll()
         }
-        http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter::class.java)
+        //http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter::class.java)
         return http.build()
     }
 

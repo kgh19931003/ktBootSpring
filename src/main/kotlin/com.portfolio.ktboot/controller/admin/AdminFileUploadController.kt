@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile
 import java.time.LocalDateTime
 
 @RestController
-@RequestMapping("/admin/am-case")
+@RequestMapping("/admin/file-upload")
 class AdminFileUploadController<FileUploadDetailResponse>(
     private val fileUploadService: FileUploadService,
     private val fileUploadRepository: FileUploadRepository,
@@ -32,26 +32,22 @@ class AdminFileUploadController<FileUploadDetailResponse>(
     ): com.portfolio.ktboot.form.FileUploadDetailResponse {
 
         // 각 카테고리별 파일 조회
-        val fileImages = fileUploadService.getFilesByCategory("image", "file", )
+        val fileImages = fileUploadService.getFilesByCategory("image", "file")
         val fileVideos = fileUploadService.getFilesByCategory("video", "file")
-        val plasticImages = fileUploadService.getFilesByCategory( "image", "plastic")
-        val plasticVideos = fileUploadService.getFilesByCategory("video", "plastic")
-        val repairImages = fileUploadService.getFilesByCategory("image", "repair")
-        val repairVideos = fileUploadService.getFilesByCategory("video", "repair")
 
         return FileUploadDetailResponse(
                 idx = 0,
                 language = "ko",
-                // 금속 이미지
+                //  이미지
                 fileImage = fileImages.map { it.src!! },
                 fileImageIndex = fileImages.map { it.idx!! },
                 fileImageOrder = fileImages.map { it.order!! },
                 fileImageOriginalName = fileImages.map { it.originName!! },
-                // 금속 비디오
-                fileFileImage = fileVideos.map { it.src!! },
-                fileFileIndex = fileVideos.map { it.idx!! },
-                fileFileOrder = fileVideos.map { it.order!! },
-                fileFileOriginalName = fileVideos.map { it.originName!! },
+                //  비디오
+                fileVideo = fileVideos.map { it.src!! },
+                fileIndex = fileVideos.map { it.idx!! },
+                fileOrder = fileVideos.map { it.order!! },
+                fileOriginalName = fileVideos.map { it.originName!! },
         )
     }
 
@@ -72,7 +68,7 @@ class AdminFileUploadController<FileUploadDetailResponse>(
             println("fileVideos : ${fileVideos}")
 
             if (!fileImages.isNullOrEmpty()) {
-                // ✅ 금속 이미지 업로드
+                // ✅  이미지 업로드
                 processFileUploads(
                         fileImages,
                         form.fileImageMultipartFileOrder,
@@ -81,7 +77,7 @@ class AdminFileUploadController<FileUploadDetailResponse>(
                         "image"
                 )
             } else {
-                // ✅ 금속 이미지 수정 처리
+                // ✅  이미지 수정 처리
                 updateFiles(
                         fileImages,
                         form.fileImageDeleteIndex,
@@ -96,7 +92,7 @@ class AdminFileUploadController<FileUploadDetailResponse>(
 
 
             if (!fileVideos.isNullOrEmpty()) {
-                // 금속 비디오 업로드
+                //  비디오 업로드
                 processFileUploads(
                         fileVideos,
                         form.fileVideoMultipartFileOrder,
@@ -106,16 +102,16 @@ class AdminFileUploadController<FileUploadDetailResponse>(
                 )
             }
             else{
-                // 금속 비디오 처리
+                //  비디오 처리
                 updateFiles(fileVideos, form.fileVideoDeleteIndex,
                         form.fileVideoOrder, form.fileVideoIndex, form.fileVideoMultipartFileOrder,
                         form.language ?: "ko", "file", "video")
             }
 
 
-            Response.success("수행사례 등록 성공")
+            Response.success("등록 성공")
         } catch (e: Exception) {
-            Response.fail("수행사례 등록 실패: ${e.message}")
+            Response.fail("등록 실패: ${e.message}")
         }
     }
 

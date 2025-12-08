@@ -21,40 +21,20 @@ class FileUploadController(
     ): FileUploadDetailResponse {
 
         // 각 카테고리별 파일 조회
-        val metalImages = fileUploadService.getFilesByCategory("image", "metal", )
-        val metalVideos = fileUploadService.getFilesByCategory("video", "metal")
-        val plasticImages = fileUploadService.getFilesByCategory( "image", "plastic")
-        val plasticVideos = fileUploadService.getFilesByCategory("video", "plastic")
-        val repairImages = fileUploadService.getFilesByCategory("image", "repair")
-        val repairVideos = fileUploadService.getFilesByCategory("video", "repair")
+        val fileImages = fileUploadService.getFilesByCategory("image", "file")
+        val fileVideos = fileUploadService.getFilesByCategory("video", "file")
 
         return FileUploadDetailResponse(
                 idx = 0,
                 language = "ko",
                 // 금속 이미지
-                metalImage = metalImages.map { it.src!! },
-                metalImageIndex = metalImages.map { it.idx!! },
-                metalImageOrder = metalImages.map { it.order!! },
+                fileImage = fileImages.map { it.src!! },
+                fileImageIndex = fileImages.map { it.idx!! },
+                fileImageOrder = fileImages.map { it.order!! },
                 // 금속 비디오
-                metalFileImage = metalVideos.map { it.src!! },
-                metalFileIndex = metalVideos.map { it.idx!! },
-                metalFileOrder = metalVideos.map { it.order!! },
-                // 플라스틱 이미지
-                plasticImage = plasticImages.map { it.src!! },
-                plasticImageIndex = plasticImages.map { it.idx!! },
-                plasticImageOrder = plasticImages.map { it.order!! },
-                // 플라스틱 비디오
-                plasticFileImage = plasticVideos.map { it.src!! },
-                plasticFileIndex = plasticVideos.map { it.idx!! },
-                plasticFileOrder = plasticVideos.map { it.order!! },
-                // 보수 이미지
-                repairImage = repairImages.map { it.src!! },
-                repairImageIndex = repairImages.map { it.idx!! },
-                repairImageOrder = repairImages.map { it.order!! },
-                // 보수 비디오
-                repairFileImage = repairVideos.map { it.src!! },
-                repairFileIndex = repairVideos.map { it.idx!! },
-                repairFileOrder = repairVideos.map { it.order!! }
+                fileVideo = fileVideos.map { it.src!! },
+                fileIndex = fileVideos.map { it.idx!! },
+                fileOrder = fileVideos.map { it.order!! },
         )
     }
 

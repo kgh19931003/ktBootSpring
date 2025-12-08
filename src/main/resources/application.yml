@@ -4,8 +4,8 @@ spring:
       matching-strategy: ant_path_matcher
   servlet:
     multipart:
-      max-file-size: 5MB       # 개별 파일 최대 크기
-      max-request-size: 20MB    # 전체 요청 최대 크기
+      max-file-size: 50MB       # 개별 파일 최대 크기
+      max-request-size: 500MB    # 전체 요청 최대 크기
   jpa:
     hibernate:
       ddl-auto: none

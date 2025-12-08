@@ -57,7 +57,7 @@ class UploadController(private val s3Service: S3Service) {
         val targetPath = uploadDir.resolve(savedName)
         file.transferTo(targetPath.toFile())
 
-        if (activeProfiles.contains("aws") || activeProfiles.contains("local")) {
+        if (activeProfiles.contains("aws")) {
             val tempFile = targetPath.toFile()
             val key = "${relativePath}/$savedName"
             src = s3Service.uploadFile(tempFile, key).toString()
@@ -133,7 +133,7 @@ class UploadController(private val s3Service: S3Service) {
         val targetPath = uploadDir.resolve(savedName)
         file.transferTo(targetPath.toFile())
 
-        if (activeProfiles.contains("aws") || activeProfiles.contains("local")) {
+        if (activeProfiles.contains("aws")) {
             val tempFile = targetPath.toFile()
             val key = "${relativePath}/$savedName"
             src = s3Service.uploadFile(tempFile, key).toString()
@@ -192,7 +192,7 @@ class UploadController(private val s3Service: S3Service) {
         return try {
             val activeProfiles = env.activeProfiles
 
-            if (activeProfiles.contains("aws") || activeProfiles.contains("local")) {
+            if (activeProfiles.contains("aws")) {
                 // S3에서 삭제
                 if (isVideo) {
                     // 비디오는 썸네일이 없으므로 원본만 삭제
