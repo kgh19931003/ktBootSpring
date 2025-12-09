@@ -133,7 +133,3 @@ data class LoginRequest(
         val pass: String? = null
 )
 
-
-enum class UploadPath(val PATH: String) {
-    PERFORMANCE("/upload/editor/performance/images/")
-}
