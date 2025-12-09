@@ -45,6 +45,7 @@ pipeline {
                             if docker images --format "{{.Repository}}" | grep -q "^html_portfolio-api\\\$"; then
                                 docker rmi -f html_portfolio-api
                             fi && \
+                            chmod +x gradlew && \
                             ./gradlew clean build && \
                             cd ${env.DOCKER_COMPOSE_PATH} && \
                             docker compose build portfolio-api && \
