@@ -2,16 +2,12 @@ package com.portfolio.ktboot.orm.jpa.entity
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import jakarta.persistence.*
-import org.springframework.data.annotation.CreatedDate
-import org.springframework.data.annotation.LastModifiedDate
-import org.springframework.data.jpa.domain.support.AuditingEntityListener
-import java.math.BigDecimal
 import java.time.LocalDateTime
 
 
 @Entity
-@Table(name = "performance", schema = "portfolio", catalog = "")
-data class PerformanceEntity(
+@Table(name = "post", schema = "portfolio", catalog = "")
+data class PostEntity(
 
         @Id
         @Column(name = "idx")

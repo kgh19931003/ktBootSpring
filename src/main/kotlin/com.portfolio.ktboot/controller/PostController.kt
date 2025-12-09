@@ -3,42 +3,37 @@ package com.portfolio.ktboot.controller
 
 import com.portfolio.ktboot.form.*
 import com.portfolio.ktboot.model.Response
-import com.portfolio.ktboot.orm.jpa.*
-import com.portfolio.ktboot.orm.jpa.entity.PerformanceEntity
-import com.portfolio.ktboot.orm.jpa.entity.PerformanceFileEntity
-import com.portfolio.ktboot.orm.jpa.repository.PerformanceFileRepository
-import com.portfolio.ktboot.orm.jpa.repository.PerformanceRepository
+import com.portfolio.ktboot.orm.jpa.entity.PostEntity
+import com.portfolio.ktboot.orm.jpa.entity.PostFileEntity
+import com.portfolio.ktboot.orm.jpa.repository.PostFileRepository
+import com.portfolio.ktboot.orm.jpa.repository.PostRepository
 import com.portfolio.ktboot.proto.combine
 import com.portfolio.ktboot.service.ExcelService
-import com.portfolio.ktboot.service.PerformanceService
+import com.portfolio.ktboot.service.PostService
 import deleteImageFile
-import isAllowedExtension
 import jakarta.servlet.http.HttpServletResponse
 import jakarta.transaction.Transactional
-import nowAsRegularFormat
 import nowAsTimestamp
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import tikaAllowedImageFile
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.time.LocalDateTime
-import java.util.*
 
 @RestController
-@RequestMapping("/performance") // API 요청을 위한 기본 경로
-class PerformanceController (
-    private val performanceService: PerformanceService,
-    private val performanceRepository: PerformanceRepository,
-    private val performanceFileRepository: PerformanceFileRepository,
-    private val excelService: ExcelService
+@RequestMapping("/post") // API 요청을 위한 기본 경로
+class PostController (
+        private val postService: PostService,
+        private val postRepository: PostRepository,
+        private val postFileRepository: PostFileRepository,
+        private val excelService: ExcelService
 ){
 
     @GetMapping("/one/{id}")
-    fun performanceOne(@PathVariable id: Int): PerformanceList {
-        return performanceService.getPerformanceOne(id).let{ prdInfo ->
-            var file = performanceService.getfileOne(id)
+    fun postOne(@PathVariable id: Int): PostList {
+        return postService.getPostOne(id).let{ prdInfo ->
+            var file = postService.getfileOne(id)
             prdInfo.copy(
                     fileIndex = file.map { it.idx },
                     fileOrder = file.map { it.order },
@@ -49,23 +44,23 @@ class PerformanceController (
     }
 
     @GetMapping("/image-one/{prdIdx}")
-    fun fileOne(@PathVariable prdIdx: Int): List<PerformanceFileEntity> {
-        return performanceService.getfileOne(prdIdx)
+    fun fileOne(@PathVariable prdIdx: Int): List<PostFileEntity> {
+        return postService.getfileOne(prdIdx)
     }
 
 
     @GetMapping("/list")
-    fun performanceList(form: PerformanceSearchForm): ListPagination<PerformanceList> {
-        return performanceService.getPerformanceList(form)
+    fun postList(form: PostSearchForm): ListPagination<PostList> {
+        return postService.getPostList(form)
     }
 
     @PostMapping("/create")
     @Transactional
-    fun performanceCreate(
-            @RequestPart("form") form: PerformanceUpdateForm,
+    fun postCreate(
+            @RequestPart("form") form: PostUpdateForm,
             @RequestPart("fileImage", required = false) files: List<MultipartFile>?
     ): Any? {
-        val performanceEntity = PerformanceEntity(
+        val postEntity = PostEntity(
             language = form.language,
             category = form.category,
             title = form.title,
@@ -73,10 +68,10 @@ class PerformanceController (
             content = form.content,
         )
 
-        println("PerformanceUpdateForm : "+form)
+        println("PostUpdateForm : "+form)
 
         return try {
-            performanceService.save(performanceEntity).let {
+            postService.save(postEntity).let {
 
                 // 신규로 등록되는 실제 파일
                 files?.filterNot { it.isEmpty }?.forEachIndexed { index, file ->
@@ -85,7 +80,7 @@ class PerformanceController (
                     val extension = file.originalFilename?.substringAfterLast('.', "") ?: "png"
                     val savedName = nowAsTimestamp().combine(".$extension")
                     val root = System.getProperty("user.dir")
-                    val uploadDir = Paths.get(root, "uploads", "performance", "images")
+                    val uploadDir = Paths.get(root, "uploads", "post", "images")
                     val relativePath = uploadDir.toString().removePrefix(root).replace("\\", "/")
                     val src = relativePath.combine("/" + savedName!!)
 
@@ -97,8 +92,8 @@ class PerformanceController (
                     val targetPath = uploadDir.resolve(savedName)
                     file.transferTo(targetPath.toFile())
 
-                    performanceFileRepository.save(
-                            PerformanceFileEntity(
+                    postFileRepository.save(
+                            PostFileEntity(
                                     language = form.language,
                                     parentIdx = it.idx,
                                     originName = originalName,
@@ -122,12 +117,12 @@ class PerformanceController (
 
     @PostMapping("/update/{id}")
     @Transactional
-    fun performanceUpdate(
+    fun postUpdate(
             @PathVariable id: Int,
-            @RequestPart("form") form: PerformanceUpdateForm,
+            @RequestPart("form") form: PostUpdateForm,
             @RequestPart("fileImage", required = false) files: List<MultipartFile>?
     ): Any? {
-        val performance = performanceRepository.findByIdx(id).copy(
+        val post = postRepository.findByIdx(id).copy(
                 idx = id,
                 language = form.language,
                 category = form.category,
@@ -139,19 +134,19 @@ class PerformanceController (
 
         // 이미 등록되어있는 파일 삭제
         form.fileDeleteIndex?.forEachIndexed{ index, value ->
-            val fileInfo = performanceFileRepository.findByIdx(value)
+            val fileInfo = postFileRepository.findByIdx(value)
 
             val root = System.getProperty("user.dir")  // 예: /home/ubuntu/project
-            val imagePath = Paths.get(root, "uploads", "performance", "images", fileInfo?.name).toString()
+            val imagePath = Paths.get(root, "uploads", "post", "images", fileInfo?.name).toString()
 
-            performanceFileRepository.decrementOrderGreaterThan(id ,fileInfo!!.order).let{
+            postFileRepository.decrementOrderGreaterThan(id ,fileInfo!!.order).let{
                 deleteImageFile(imagePath).let{
-                    performanceFileRepository.deleteByIdx(value)
+                    postFileRepository.deleteByIdx(value)
                 }
             }
         }
 
-        performanceService.save(performance).let{
+        postService.save(post).let{
 
             println("form.fileMultipartFileOrder : "+form.fileMultipartFileOrder)
 
@@ -162,7 +157,7 @@ class PerformanceController (
                 val extension = file.originalFilename?.substringAfterLast('.', "") ?: "png"
                 val savedName = nowAsTimestamp().combine(".$extension")
                 val root = System.getProperty("user.dir")
-                val uploadDir = Paths.get(root, "uploads", "performance", "images")
+                val uploadDir = Paths.get(root, "uploads", "post", "images")
                 val relativePath = uploadDir.toString().removePrefix(root).replace("\\", "/")
                 val src = relativePath.combine("/"+savedName!!)
                 val multipartFileOrder = form.fileMultipartFileOrder?.get(index)
@@ -177,8 +172,8 @@ class PerformanceController (
                 val targetPath = uploadDir.resolve(savedName)
                 file.transferTo(targetPath.toFile())
 
-                performanceFileRepository.save(
-                        PerformanceFileEntity(
+                postFileRepository.save(
+                        PostFileEntity(
                                 language = form.language,
                                 parentIdx = id,
                                 originName = originalName,
@@ -201,9 +196,9 @@ class PerformanceController (
 
                 println("imageIndex : $imageIndex , imageOrder : $imageOrder")
 
-                val performanceInfo = performanceFileRepository.findByIdx(value)
-                performanceFileRepository.save(
-                        performanceInfo?.copy(
+                val postInfo = postFileRepository.findByIdx(value)
+                postFileRepository.save(
+                        postInfo?.copy(
                                 order = imageOrder
                         )
                 )
@@ -211,14 +206,14 @@ class PerformanceController (
 
         }
 
-        return performanceService.save(performance)
+        return postService.save(post)
     }
 
     @DeleteMapping("/delete/{id}")
     @Transactional
-    fun performanceDelete(@PathVariable id: Int): Response<String> {
+    fun postDelete(@PathVariable id: Int): Response<String> {
         return try {
-            performanceRepository.deleteById(id)
+            postRepository.deleteById(id)
             Response.success("회원 삭제 성공")
         } catch (ex: Exception) {
             Response.fail("회원 삭제 실패: ${ex.message}")
@@ -228,10 +223,10 @@ class PerformanceController (
 
 
     @GetMapping("/excel")
-    fun downloadPerformanceListExcel(
-            @ModelAttribute form: PerformanceSearchForm,
+    fun downloadPostListExcel(
+            @ModelAttribute form: PostSearchForm,
             response: HttpServletResponse
     ) {
-        excelService.performanceExcelDownload(performanceService.getPerformanceList(form), response, "상품목록")
+        excelService.postExcelDownload(postService.getPostList(form), response, "상품목록")
     }
 }

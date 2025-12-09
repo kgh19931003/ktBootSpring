@@ -70,7 +70,7 @@ data class PolicySearchForm(
         val privateAgree: String = "N"
 ) : ListForm()
 
-data class PerformanceSearchForm(
+data class PostSearchForm(
         var fromDate: LocalDate? = null,
         var toDate: LocalDate? = null,
         var language: String? = null,

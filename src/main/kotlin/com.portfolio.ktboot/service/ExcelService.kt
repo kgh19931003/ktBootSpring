@@ -85,7 +85,7 @@ class ExcelService() {
     }
 
 
-    fun performanceExcelDownload(data: ListPagination<PerformanceList>, response: HttpServletResponse, fileName: String) {
+    fun postExcelDownload(data: ListPagination<PostList>, response: HttpServletResponse, fileName: String) {
 
         // ✔ 매 요청마다 새로운 워크북 생성
         XSSFWorkbook().use { workbook ->
@@ -98,7 +98,7 @@ class ExcelService() {
             header.createCell(2).setCellValue("제목")
             header.createCell(3).setCellValue("부제목")
             header.createCell(4).setCellValue("컨텐츠")
-            header.createCell(4).setCellValue("등록일자")
+            header.createCell(5).setCellValue("등록일자")
 
             // 데이터 채우기
             data.contents.forEachIndexed { index, value ->
@@ -115,6 +115,7 @@ class ExcelService() {
             responseSetting(response, fileName)
 
             // 배열 쓰기 → 스트림 flush → close 자동 실행
+            println("response.outputStream : "+response.outputStream.toString())
             workbook.write(response.outputStream)
             // `use` 블록 종료 시 자동 close()
         }
@@ -135,7 +136,7 @@ class ExcelService() {
             header.createCell(2).setCellValue("제목")
             header.createCell(3).setCellValue("부제목")
             header.createCell(4).setCellValue("컨텐츠")
-            header.createCell(4).setCellValue("등록일자")
+            header.createCell(5).setCellValue("등록일자")
 
             // 데이터 채우기
             data.contents.forEachIndexed { index, value ->

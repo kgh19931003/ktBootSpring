@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import java.time.LocalDateTime
 
 
-data class PerformanceUpdateForm(
+data class PostUpdateForm(
         var language: String? = null,
         val category: String? = null,
         val title: String? = null,
@@ -21,7 +21,7 @@ data class PerformanceUpdateForm(
         // 이미지 제외 — MultipartFile로 따로 받음
 )
 
-data class PerformanceCreateForm(
+data class PostCreateForm(
     var language: String? = null,
     val category: String? = null,
     val title: String? = null,
@@ -39,7 +39,7 @@ data class PerformanceCreateForm(
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-data class PerformanceList(
+data class PostList(
         val idx: Int?,
         var language: String? = null,
         val fileIndex: List<Int?>? = null,

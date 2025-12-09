@@ -1,4 +1,4 @@
-CREATE TABLE `performance_file` (
+CREATE TABLE `post_file` (
                                   `idx` INT NOT NULL AUTO_INCREMENT,
                                   `language` VARCHAR(10),
                                   `parent_idx` INT NOT NULL,

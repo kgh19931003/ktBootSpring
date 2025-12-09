@@ -1,4 +1,4 @@
-CREATE TABLE `performance` (
+CREATE TABLE `post` (
                            `idx` INT NOT NULL AUTO_INCREMENT,
                            `language` VARCHAR(10),
                            `category` VARCHAR(50) NOT NULL,
