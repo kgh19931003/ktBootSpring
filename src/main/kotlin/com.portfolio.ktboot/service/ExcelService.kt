@@ -2,27 +2,67 @@ package com.portfolio.ktboot.service
 
 import com.portfolio.ktboot.form.*
 import jakarta.servlet.http.HttpServletResponse
+import org.apache.poi.ss.usermodel.CellStyle
+import org.apache.poi.ss.usermodel.CreationHelper
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.springframework.stereotype.Service
-import java.net.URLEncoder
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.util.*
 
 @Service
 class ExcelService() {
 
     fun responseSetting(response: HttpServletResponse, fileName: String): HttpServletResponse {
         response.contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        // val fileName = URLEncoder.encode(fileName+".xlsx", "UTF-8")
-        response.setHeader("Content-Disposition", "attachment; filename*=UTF-8''${URLEncoder.encode(fileName+".xlsx", "UTF-8")}")
+
+        val encoded = java.net.URLEncoder.encode(fileName, "UTF-8")
+                .replace("+", "%20") // 중요: 스페이스를 +가 아니라 %20 으로 변경
+
+        response.setHeader(
+                "Content-Disposition",
+                "attachment; filename*=UTF-8''${encoded}.xlsx"
+        )
         response.setHeader("Access-Control-Expose-Headers", "Content-Disposition")
 
         return response
     }
 
+    // ⭐ 날짜 스타일 생성 함수
+    private fun XSSFWorkbook.createDateCellStyle(format: String = "yyyy-MM-dd HH:mm:ss"): CellStyle {
+        val createHelper = this.creationHelper
+        val style = this.createCellStyle()
+        style.dataFormat = createHelper.createDataFormat().getFormat(format)
+        return style
+    }
+
+    // ⭐ 날짜 셀 처리 함수
+    private fun org.apache.poi.ss.usermodel.Cell.setDateValue(dateValue: Any?, dateCellStyle: CellStyle) {
+        when (dateValue) {
+            is LocalDateTime -> {
+                // LocalDateTime -> Date 변환
+                val date = Date.from(dateValue.atZone(ZoneId.systemDefault()).toInstant())
+                this.setCellValue(date)
+                this.cellStyle = dateCellStyle
+            }
+            is String -> {
+                // 문자열인 경우 그대로 출력
+                this.setCellValue(dateValue)
+            }
+            else -> {
+                // 기타 타입은 toString()
+                this.setCellValue(dateValue?.toString() ?: "")
+            }
+        }
+    }
+
     fun memberExcelDownload(data: ListPagination<MemberList>, response: HttpServletResponse, fileName: String) {
 
-        // ✔ 매 요청마다 새로운 워크북 생성
         XSSFWorkbook().use { workbook ->
             val sheet = workbook.createSheet(fileName)
+
+            // ⭐ 날짜 스타일 생성
+            val dateCellStyle = workbook.createDateCellStyle()
 
             // 헤더
             val header = sheet.createRow(0)
@@ -37,26 +77,30 @@ class ExcelService() {
                 row.createCell(0).setCellValue(value.id)
                 row.createCell(1).setCellValue(value.name)
                 row.createCell(2).setCellValue(value.gender.toString())
-                row.createCell(3).setCellValue(value.createdAt)
+
+                // ⭐ 날짜 셀 처리 (함수 사용)
+                row.createCell(3).setDateValue(value.createdAt, dateCellStyle)
             }
 
-            // 응답 헤더 설정
-            responseSetting(response, fileName)
+            // 컬럼 너비 자동 조정
+            for (i in 0..3) {
+                sheet.autoSizeColumn(i)
+                sheet.setColumnWidth(i, sheet.getColumnWidth(i) + 512)
+            }
 
-            // 배열 쓰기 → 스트림 flush → close 자동 실행
+            responseSetting(response, fileName)
             workbook.write(response.outputStream)
-            // `use` 블록 종료 시 자동 close()
         }
 
     }
 
-
-
     fun productExcelDownload(data: ListPagination<ProductList>, response: HttpServletResponse, fileName: String) {
 
-        // ✔ 매 요청마다 새로운 워크북 생성
         XSSFWorkbook().use { workbook ->
             val sheet = workbook.createSheet(fileName)
+
+            // ⭐ 날짜 스타일 생성
+            val dateCellStyle = workbook.createDateCellStyle()
 
             // 헤더
             val header = sheet.createRow(0)
@@ -71,25 +115,30 @@ class ExcelService() {
                 row.createCell(0).setCellValue(value.idx.toString())
                 row.createCell(1).setCellValue(value.name)
                 row.createCell(2).setCellValue(value.price.toString())
-                row.createCell(3).setCellValue(value.createdAt)
+
+                // ⭐ 날짜 셀 처리 (함수 사용)
+                row.createCell(3).setDateValue(value.createdAt, dateCellStyle)
             }
 
-            // 응답 헤더 설정
-            responseSetting(response, fileName)
+            // 컬럼 너비 자동 조정
+            for (i in 0..3) {
+                sheet.autoSizeColumn(i)
+                sheet.setColumnWidth(i, sheet.getColumnWidth(i) + 512)
+            }
 
-            // 배열 쓰기 → 스트림 flush → close 자동 실행
+            responseSetting(response, fileName)
             workbook.write(response.outputStream)
-            // `use` 블록 종료 시 자동 close()
         }
 
     }
 
-
     fun postExcelDownload(data: ListPagination<PostList>, response: HttpServletResponse, fileName: String) {
 
-        // ✔ 매 요청마다 새로운 워크북 생성
         XSSFWorkbook().use { workbook ->
             val sheet = workbook.createSheet(fileName)
+
+            // ⭐ 날짜 스타일 생성
+            val dateCellStyle = workbook.createDateCellStyle()
 
             // 헤더
             val header = sheet.createRow(0)
@@ -108,26 +157,30 @@ class ExcelService() {
                 row.createCell(2).setCellValue(value.title)
                 row.createCell(3).setCellValue(value.subtitle)
                 row.createCell(4).setCellValue(value.content)
-                row.createCell(5).setCellValue(value.createdAt)
+
+                // ⭐ 날짜 셀 처리 (함수 사용)
+                row.createCell(5).setDateValue(value.createdAt, dateCellStyle)
             }
 
-            // 응답 헤더 설정
-            responseSetting(response, fileName)
+            // 컬럼 너비 자동 조정
+            for (i in 0..5) {
+                sheet.autoSizeColumn(i)
+                sheet.setColumnWidth(i, sheet.getColumnWidth(i) + 512)
+            }
 
-            // 배열 쓰기 → 스트림 flush → close 자동 실행
-            println("response.outputStream : "+response.outputStream.toString())
+            responseSetting(response, fileName)
             workbook.write(response.outputStream)
-            // `use` 블록 종료 시 자동 close()
         }
 
     }
 
-
     fun alloyExcelDownload(data: ListPagination<AlloyList>, response: HttpServletResponse, fileName: String) {
 
-        // ✔ 매 요청마다 새로운 워크북 생성
         XSSFWorkbook().use { workbook ->
             val sheet = workbook.createSheet(fileName)
+
+            // ⭐ 날짜 스타일 생성
+            val dateCellStyle = workbook.createDateCellStyle()
 
             // 헤더
             val header = sheet.createRow(0)
@@ -146,18 +199,21 @@ class ExcelService() {
                 row.createCell(2).setCellValue(value.title)
                 row.createCell(3).setCellValue(value.subtitle)
                 row.createCell(4).setCellValue(value.content)
-                row.createCell(5).setCellValue(value.createdAt)
+
+                // ⭐ 날짜 셀 처리 (함수 사용)
+                row.createCell(5).setDateValue(value.createdAt, dateCellStyle)
             }
 
-            // 응답 헤더 설정
-            responseSetting(response, fileName)
+            // 컬럼 너비 자동 조정
+            for (i in 0..5) {
+                sheet.autoSizeColumn(i)
+                sheet.setColumnWidth(i, sheet.getColumnWidth(i) + 512)
+            }
 
-            // 배열 쓰기 → 스트림 flush → close 자동 실행
+            responseSetting(response, fileName)
             workbook.write(response.outputStream)
-            // `use` 블록 종료 시 자동 close()
         }
 
     }
-
 
 }

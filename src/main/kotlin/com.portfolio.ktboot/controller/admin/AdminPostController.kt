@@ -248,7 +248,6 @@ class AdminPostController (
             @ModelAttribute form: PostSearchForm,
             response: HttpServletResponse
     ) {
-        println("postService.getPostList(form) : "+postService.getPostList(form))
-        excelService.postExcelDownload(postService.getPostList(form), response, "게시글 목록")
+        excelService.postExcelDownload(postService.getPostList(form), response, "post list")
     }
 }
