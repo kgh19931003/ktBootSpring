@@ -19,7 +19,7 @@ spring:
     import: optional:file:.env[.properties]
   web:
     resources:
-      static-locations: classpath:/static/, file:/var/www/uploads/
+      static-locations: classpath:/static/, file:/app/uploads/
   datasource:
     url: jdbc:mariadb://localhost:3306/portfolio?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Seoul
     username: ENC(baB8CukL9Rz5rbaZ98en5A==)
@@ -115,7 +115,7 @@ spring:
     time-zone: Asia/Seoul
   web:
     resources:
-      static-locations: classpath:/static/, file:/var/www/uploads/
+      static-locations: classpath:/static/, file:/app/uploads/
   datasource:
     url: jdbc:mariadb://localhost:3306/portfolio?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Seoul
     username: ENC(baB8CukL9Rz5rbaZ98en5A==)
@@ -193,7 +193,7 @@ spring:
     time-zone: Asia/Seoul
   web:
     resources:
-      static-locations: classpath:/static/, file:/var/www/uploads/
+      static-locations: classpath:/static/, file:/app/uploads/
   datasource:
     url: jdbc:mariadb://host.docker.internal:3306/portfolio?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Seoul
     username: ENC(A6bs9PFdqSREKHU6ZT2X/A==)
@@ -267,7 +267,7 @@ spring:
     time-zone: Asia/Seoul
   web:
     resources:
-      static-locations: classpath:/static/, file:/var/www/uploads/
+      static-locations: classpath:/static/, file:/app/uploads/
   datasource:
     url: jdbc:mariadb://portfolio-web-db.cru08kuai7au.ap-northeast-2.rds.amazonaws.com/portfolio?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Seoul
     username: ENC(m6m7XbvBWIEl7AQVoiOykQ==)
@@ -348,7 +348,7 @@ spring:
     time-zone: Asia/Seoul
   web:
     resources:
-      static-locations: classpath:/static/, file:/var/www/uploads/
+      static-locations: classpath:/static/, file:/app/uploads/
   datasource:
     url: jdbc:mariadb://mariadb:3306/portfolio?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Seoul
     username: ENC(baB8CukL9Rz5rbaZ98en5A==)
