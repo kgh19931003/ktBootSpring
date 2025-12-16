@@ -41,6 +41,8 @@ spring:
 
 logging:
   level:
+    org.springframework.web: DEBUG
+    org.springframework.web.servlet.resource: DEBUG
     org.springframework.jdbc: DEBUG
     com.zaxxer.hikari: DEBUG
     org.jooq: DEBUG
