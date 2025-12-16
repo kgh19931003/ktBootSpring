@@ -36,6 +36,8 @@ file:
 
 logging:
   level:
+    org.springframework.web: DEBUG
+    org.springframework.web.servlet.resource: DEBUG
     org.flywaydb: DEBUG
 
 
