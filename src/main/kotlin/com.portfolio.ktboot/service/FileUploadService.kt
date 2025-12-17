@@ -167,9 +167,21 @@ class FileUploadService(
     /**
      * 특정 order 값보다 큰 파일들의 order 감소
      */
-    fun decrementOrderGreaterThan(parentIdx: Int, order: Int): Int {
+    fun decrementOrderGreaterThan(parentIdx: Int, order: Int, type: String): Int {
         return try {
-            fileUploadRepository.decrementOrderGreaterThan(parentIdx, order)
+            fileUploadRepository.decrementOrderGreaterThan(parentIdx, order, type)
+        } catch (e: Exception) {
+            throw Exception("파일 순서 조정 실패: ${e.message}", e)
+        }
+    }
+
+
+    /**
+     * 특정 order 값보다 큰 파일들의 order 증가
+     */
+    fun incrementOrderGreaterThan(parentIdx: Int, order: Int, type: String): Int {
+        return try {
+            fileUploadRepository.incrementOrderGreaterThan(parentIdx, order, type)
         } catch (e: Exception) {
             throw Exception("파일 순서 조정 실패: ${e.message}", e)
         }

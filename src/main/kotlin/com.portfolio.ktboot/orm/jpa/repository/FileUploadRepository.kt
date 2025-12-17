@@ -56,11 +56,25 @@ interface FileUploadRepository : JpaRepository<FileUploadEntity, Int> {
     @Query(
             "UPDATE FileUploadEntity f " +
                     "SET f.order = f.order - 1 " +
-                    "WHERE f.order > :order AND f.parentIdx = :parentIdx"
+                    "WHERE f.order > :order AND f.parentIdx = :parentIdx AND f.type = :type"
     )
     fun decrementOrderGreaterThan(
             @Param("parentIdx") parentIdx: Int,
-            @Param("order") order: Int?
+            @Param("order") order: Int?,
+            @Param("type") type: String
+    ): Int
+
+    // Order 조정 쿼리
+    @Modifying
+    @Query(
+            "UPDATE FileUploadEntity f " +
+                    "SET f.order = f.order + 1 " +
+                    "WHERE f.order >= :order AND f.parentIdx = :parentIdx AND f.type = :type"
+    )
+    fun incrementOrderGreaterThan(
+            @Param("parentIdx") parentIdx: Int,
+            @Param("order") order: Int?,
+            @Param("type") type: String
     ): Int
 
     @Modifying

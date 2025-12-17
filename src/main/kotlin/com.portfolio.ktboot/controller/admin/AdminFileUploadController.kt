@@ -142,6 +142,8 @@ class AdminFileUploadController<FileUploadDetailResponse>(
 
             val order = orderList?.getOrNull(index) ?: index
 
+            fileUploadFileRepository.incrementOrderGreaterThan(index, order, type)
+
             fileUploadFileRepository.save(
                     FileUploadEntity(
                             parentIdx = 0,
@@ -181,8 +183,12 @@ class AdminFileUploadController<FileUploadDetailResponse>(
                 val dir = file?.dir ?: return@forEach
                 val name = file.name
                 val path = dir.combine("/" +name)!!
-                uploadController.deleteFile(path, false)
-                fileUploadFileRepository.deleteByIdx(idx)
+
+                fileUploadFileRepository.decrementOrderGreaterThan(idx, file.order, type).let{
+                    uploadController.deleteFile(path, false).let{
+                        fileUploadFileRepository.deleteByIdx(idx)
+                    }
+                }
 
                 println("파일 삭제 완료 - idx: $idx")
             } catch (ex: Exception) {
